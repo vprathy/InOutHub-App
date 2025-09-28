@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <systemform>
+    <formid>{e4c0ab75-f5e4-4059-9509-24fee6bb63a5}</formid>
+    <IntroducedVersion>1.0.0.0</IntroducedVersion>
+    <FormPresentation>0</FormPresentation>
+    <FormActivationState>1</FormActivationState>
+    <form>
+      <tabs>
+        <tab name="tab_1" id="e8e3943e-29f0-497c-8d7c-79a206ad39d6" IsUserDefined="0" locklevel="0" showlabel="true">
+          <labels>
+            <label description="" languagecode="1033" />
+          </labels>
+          <columns>
+            <column width="100%">
+              <sections>
+                <section name="tab_1_section_1" id="25ecd563-d83c-4734-b569-f54e035fbe6a" IsUserDefined="0" locklevel="0" showlabel="true" showbar="false" layout="varwidth" celllabelalignment="Left" celllabelposition="Left" columns="1" labelwidth="115">
+                  <labels>
+                    <label description="" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row />
+                    <row>
+                      <cell id="{0815e75d-7af5-465e-9e0b-94a9d786a49b}" locklevel="0">
+                        <labels>
+                          <label description="StudentName" languagecode="1033" />
+                        </labels>
+                        <control id="cree6_studentname" classid="{4273EDBD-AC1D-40D3-9FB2-095C621B552D}" datafieldname="cree6_studentname" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{d1a4dcc4-c18b-46e9-8783-440058ee3c13}" locklevel="0">
+                        <labels>
+                          <label description="StudentID" languagecode="1033" />
+                        </labels>
+                        <control id="cree6_studentid" classid="{4273EDBD-AC1D-40D3-9FB2-095C621B552D}" datafieldname="cree6_studentid" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{46fd8296-f43a-41cb-abf6-704944ea4fa1}" locklevel="0">
+                        <labels>
+                          <label description="Father" languagecode="1033" />
+                        </labels>
+                        <control id="cree6_fathersname" classid="{4273EDBD-AC1D-40D3-9FB2-095C621B552D}" datafieldname="cree6_fathersname" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{0c2b06a2-62bf-4193-9f11-5fe4b0f4f218}" locklevel="0">
+                        <labels>
+                          <label description="MotherName" languagecode="1033" />
+                        </labels>
+                        <control id="cree6_mothersname" classid="{4273EDBD-AC1D-40D3-9FB2-095C621B552D}" datafieldname="cree6_mothersname" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{d3efc2fe-48e1-44da-8c25-9db4ea7010d0}" locklevel="0">
+                        <labels>
+                          <label description="Guardian1" languagecode="1033" />
+                        </labels>
+                        <control id="cree6_guardian1" classid="{4273EDBD-AC1D-40D3-9FB2-095C621B552D}" datafieldname="cree6_guardian1" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{fc21ae2c-8c26-49b5-ad5a-ca5b433a35b7}" locklevel="0">
+                        <labels>
+                          <label description="Guardian2" languagecode="1033" />
+                        </labels>
+                        <control id="cree6_guardian2" classid="{4273EDBD-AC1D-40D3-9FB2-095C621B552D}" datafieldname="cree6_guardian2" disabled="false" />
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+              </sections>
+            </column>
+          </columns>
+        </tab>
+      </tabs>
+    </form>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>1</CanBeDeleted>
+    <LocalizedNames>
+      <LocalizedName description="Personal Details" languagecode="1033" />
+    </LocalizedNames>
+  </systemform>
+</forms>

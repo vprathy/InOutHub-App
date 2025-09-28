@@ -1,0 +1,379 @@
+Check_Out_Screen As screen:
+
+    MomPickup As button:
+        DisplayMode: |-
+            =If(
+                IsBlankOrError(
+                    LookUp(
+                        Student_Infos_Cache,
+                        IDName = CheckOutStudent.Text,
+                        MotherName
+                    )
+                ),
+                DisplayMode.Disabled,
+                DisplayMode.Edit
+            )
+        Height: =253
+        OnSelect: |-
+            =If(
+                IsError(
+                   // Patch(
+                   //     ScanReports,
+                   //     LookUp(
+                   //         ScanReports,
+                   //         ScanReportDate = SessionDate && DayScanID = CheckOutStudent.Text
+                   //     ),
+                   //     {CheckOutTag: true}
+                   // );
+                    Patch(
+                        Student_Scans,
+                        Defaults(Student_Scans),
+                        {
+                            Student_QR: CheckOutStudent.Text,
+                            PickUpPerson: "Mom: " & First(Student_Info_LookUp).MotherName,
+                            ScanType: "Check Out",
+                            SS_Class: First(Student_Info_LookUp).Class
+                        }
+                    );
+                ),
+                Notify(
+                    "Update Failed, Please Try Again",
+                    NotificationType.Error
+                ),
+                Notify(
+                    " Check Out Recorded Successfully",
+                    NotificationType.Success
+                );
+                Clear(Check_Out_ScanData);
+                Clear(Student_Info_LookUp);
+                MomPickup.Visible = false;
+                DadPickUp.Visible = false;
+                Guardian1Pickup.Visible = false;
+                Guardian2Pickup.Visible = false;
+                Set(
+                    Student,
+                    Blank()
+                );
+                
+            )
+        Size: =20
+        Text: |-
+            ="Mom
+            
+            " & First(Student_Info_LookUp).MotherName
+        VerticalAlign: =VerticalAlign.Top
+        Visible: =If(CheckOutStudent.Text = "Invalid QR Code, Try Again", false, true)
+        Width: =252
+        X: =40
+        Y: =368
+        ZIndex: =2
+
+    DadPickUp As button:
+        DisplayMode: |-
+            =If(
+                IsBlankOrError(
+                    LookUp(
+                        Student_Infos_Cache,
+                        IDName = CheckOutStudent.Text,
+                        Father
+                    )
+                ),
+                DisplayMode.Disabled,
+                DisplayMode.Edit
+            )
+        Height: =253
+        OnSelect: |-
+            =If(
+                IsError(
+                    //Patch(
+                    //    ScanReports,
+                    //    LookUp(
+                    //        ScanReports,
+                    //        ScanReportDate = SessionDate && DayScanID = CheckOutStudent.Text
+                    //    ),
+                    //    {CheckOutTag: true}
+                    //);
+                    Patch(
+                        Student_Scans,
+                        Defaults(Student_Scans),
+                        {
+                            Student_QR: CheckOutStudent.Text,
+                            PickUpPerson: "Dad: " & First(Student_Info_LookUp).Father,
+                            ScanType: "Check Out",
+                            SS_Class: First(Student_Info_LookUp).Class
+                        }
+                    );
+                ),
+                Notify(
+                    "Update Failed, Please Try Again",
+                    NotificationType.Error
+                ),
+                Notify(
+                    " Check Out Recorded Successfully",
+                    NotificationType.Success
+                );
+                Clear(Check_Out_ScanData);
+                Clear(Student_Info_LookUp);
+                MomPickup.Visible = false;
+                DadPickUp.Visible = false;
+                Guardian1Pickup.Visible = false;
+                Guardian2Pickup.Visible = false;
+                Set(
+                    Student,
+                    Blank()
+                );
+                
+            )
+        Size: =20
+        Text: |-
+            ="Dad
+            
+            " & First(Student_Info_LookUp).Father
+        VerticalAlign: =VerticalAlign.Top
+        Visible: =If(CheckOutStudent.Text = "Invalid QR Code, Try Again", false, true)
+        Width: =252
+        X: =348
+        Y: =368
+        ZIndex: =3
+
+    Guardian1Pickup As button:
+        DisplayMode: |-
+            =If(
+                IsBlankOrError(
+                    LookUp(
+                        Student_Infos_Cache,
+                        IDName = CheckOutStudent.Text,
+                        Guardian1
+                    )
+                ),
+                DisplayMode.Disabled,
+                DisplayMode.Edit
+            )
+        Height: =264
+        OnSelect: |-
+            =If(
+                IsError(
+                    //Patch(
+                    //    ScanReports,
+                    //    LookUp(
+                    //        ScanReports,
+                    //        ScanReportDate = SessionDate && DayScanID = CheckOutStudent.Text
+                    //    ),
+                    //    {CheckOutTag: true}
+                    //);
+                    Patch(
+                        Student_Scans,
+                        Defaults(Student_Scans),
+                        {
+                            Student_QR: CheckOutStudent.Text,
+                            PickUpPerson: "Guardian1: " & First(Student_Info_LookUp).Guardian1,
+                            ScanType: "Check Out",
+                            SS_Class: First(Student_Info_LookUp).Class
+                        }
+                    );
+                ),
+                Notify(
+                    "Update Failed, Please Try Again",
+                    NotificationType.Error
+                ),
+                Notify(
+                    " Check Out Recorded Successfully",
+                    NotificationType.Success
+                );
+                Clear(Check_Out_ScanData);
+                Clear(Student_Info_LookUp);
+                MomPickup.Visible = false;
+                DadPickUp.Visible = false;
+                Guardian1Pickup.Visible = false;
+                Guardian2Pickup.Visible = false;
+                Set(
+                    Student,
+                    Blank()
+                );
+                
+            )
+        Size: =20
+        Text: |-
+            ="Guardian 1
+            
+            " & First(Student_Info_LookUp).Guardian1
+        VerticalAlign: =VerticalAlign.Top
+        Visible: =If(CheckOutStudent.Text = "Invalid QR Code, Try Again", false, true)
+        Width: =252
+        X: =40
+        Y: =685
+        ZIndex: =4
+
+    Guardian2Pickup As button:
+        DisplayMode: |-
+            =If(
+                IsBlankOrError(
+                    LookUp(
+                        Student_Infos_Cache,
+                        IDName = CheckOutStudent.Text,
+                        Guardian2
+                    )
+                ),
+                DisplayMode.Disabled,
+                DisplayMode.Edit
+            )
+        Height: =264
+        OnSelect: |-
+            =If(
+                IsError(
+                    //Patch(
+                    //    ScanReports,
+                    //    LookUp(
+                    //        ScanReports,
+                    //        ScanReportDate = SessionDate && DayScanID = CheckOutStudent.Text
+                    //    ),
+                    //    {CheckOutTag: true}
+                    //);
+                    Patch(
+                        Student_Scans,
+                        Defaults(Student_Scans),
+                        {
+                            Student_QR: CheckOutStudent.Text,
+                            PickUpPerson: "Guardian2: " & First(Student_Info_LookUp).Guardian2,
+                            ScanType: "Check Out",
+                            SS_Class: First(Student_Info_LookUp).Class
+                        }
+                    );
+                ),
+                Notify(
+                    "Update Failed, Please Try Again",
+                    NotificationType.Error
+                ),
+                Notify(
+                    " Check Out Recorded Successfully",
+                    NotificationType.Success
+                );
+                Clear(Check_Out_ScanData);
+                Clear(Student_Info_LookUp);
+                MomPickup.Visible = false;
+                DadPickUp.Visible = false;
+                Guardian1Pickup.Visible = false;
+                Guardian2Pickup.Visible = false;
+                Set(
+                    Student,
+                    Blank()
+                );
+                
+            )
+        Size: =20
+        Text: |-
+            ="Guardian 2
+            
+            " & First(Student_Info_LookUp).Guardian2
+        VerticalAlign: =VerticalAlign.Top
+        Visible: =If(CheckOutStudent.Text = "Invalid QR Code, Try Again", false, true)
+        Width: =252
+        X: =348
+        Y: =685
+        ZIndex: =5
+
+    Back_Icon_3 As icon.BackArrow:
+        Height: =46
+        Icon: =Icon.BackArrow
+        OnSelect: =Navigate(Home_Screen)
+        Width: =46
+        X: =49
+        Y: =49
+        ZIndex: =6
+
+    "Check_Out_BarcodeReader_1 As 'Barcode Reader'":
+        BorderFillColor: =RGBA(47, 81, 151, 1)
+        DisabledBorderColor: =RGBA(166, 166, 166, 1)
+        DisabledContentColor: =RGBA(166, 166, 166, 1)
+        DisabledFillColor: =RGBA(244, 244, 244, 1)
+        DisplayMode: =DisplayMode.Edit
+        FillColor: =RGBA(56, 96, 178, 1)
+        FontSize: =24
+        Height: =70
+        HoverBorderColor: =RGBA(88, 115, 171, 1)
+        HoverContentColor: =RGBA(255, 255, 255, 1)
+        HoverFillColor: =RGBA(47, 81, 151, 1)
+        OnCancel: =false
+        OnScan: |
+            =ClearCollect(
+                Check_Out_ScanData,
+                Check_Out_BarcodeReader_1.Barcodes
+            );
+            ClearCollect(
+                Student_Info_LookUp,
+                Filter(
+                    Student_Infos_Cache,
+                    IDName = First(Check_Out_ScanData).Value
+                )
+            );
+            //Notify(CountRows(Student_Info_LookUp));
+            If(
+                IsBlankOrError(First(Student_Info_LookUp).IDName),
+                Set(Student, "Invalid QR Code, Try Again"),
+                Set(Student, First(Student_Info_LookUp).IDName)
+            );
+        PressedBorderColor: =RGBA(56, 96, 178, 1)
+        PressedContentColor: =RGBA(56, 96, 178, 1)
+        PressedFillColor: =RGBA(255, 255, 255, 1)
+        ScanningMode: ='BarcodeReader.ScanningMode'.SelectToScan
+        Text: ="Scan Student ID"
+        TextColor: =RGBA(255, 255, 255, 1)
+        Width: =460
+        X: =90
+        Y: =156
+        ZIndex: =7
+
+    Check_Out_Screen_Header_1 As label:
+        Align: =Align.Center
+        FontWeight: =FontWeight.Semibold
+        Height: =46
+        Size: =30
+        Text: ="Student Check Out"
+        Width: =398
+        X: =117
+        Y: =49
+        ZIndex: =8
+
+    CheckOutStudent As label:
+        BorderColor: =RGBA(39, 113, 194, 1)
+        BorderStyle: =
+        DisplayMode: =DisplayMode.View
+        FontWeight: =FontWeight.Semibold
+        Height: =70
+        Overflow: =Overflow.Scroll
+        Size: =20
+        Text: =Student
+        Visible: =If(CountRows(Check_Out_ScanData)>0, true, false)
+        Width: =464
+        X: =140
+        Y: =262
+        ZIndex: =9
+
+    IDNameLabel_1 As label:
+        BorderColor: =
+        BorderStyle: =
+        DisplayMode: =DisplayMode.View
+        Fill: =RGBA(255, 255, 255, 1)
+        FontWeight: =FontWeight.Semibold
+        Height: =70
+        Size: =16
+        Text: |-
+            ="ID & Name: "
+        VerticalAlign: =VerticalAlign.Top
+        Visible: =If(CountRows(Check_Out_ScanData)>0, true, false)
+        Width: =100
+        X: =40
+        Y: =262
+        ZIndex: =10
+
+    Camera_Icon_1 As icon.Camera:
+        Color: =RGBA(255, 255, 255, 1)
+        DisplayMode: =DisplayMode.View
+        Fill: =RGBA(56, 96, 178, 1)
+        Height: =47
+        Icon: =Icon.Camera
+        Width: =74
+        X: =108
+        Y: =168
+        ZIndex: =11
+

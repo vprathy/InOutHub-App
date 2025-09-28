@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <systemform>
+    <formid>{bbe64b82-7d57-454c-9346-8f7d8e4339a8}</formid>
+    <IntroducedVersion>1.0.0.0</IntroducedVersion>
+    <FormPresentation>0</FormPresentation>
+    <FormActivationState>1</FormActivationState>
+    <form>
+      <tabs>
+        <tab name="tab_1" id="6b9adde1-708f-43b6-a7d7-14d1e20e365e" IsUserDefined="0" locklevel="0" showlabel="true">
+          <labels>
+            <label description="" languagecode="1033" />
+          </labels>
+          <columns>
+            <column width="100%">
+              <sections>
+                <section name="tab_1_section_1" id="27fb677c-019a-4ad0-9947-10c6def891ff" IsUserDefined="0" locklevel="0" showlabel="true" showbar="false" layout="varwidth" celllabelalignment="Left" celllabelposition="Left" columns="1" labelwidth="115">
+                  <labels>
+                    <label description="" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row />
+                    <row>
+                      <cell id="{527b61ec-33bf-457a-a3a7-f41bf54f5350}" locklevel="0">
+                        <labels>
+                          <label description="Class" languagecode="1033" />
+                        </labels>
+                        <control id="cree6_class" classid="{4273EDBD-AC1D-40D3-9FB2-095C621B552D}" datafieldname="cree6_class" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{bd5fc385-6703-4df0-8523-5dbb8ca976b4}" locklevel="0">
+                        <labels>
+                          <label description="ClassRoomNumber" languagecode="1033" />
+                        </labels>
+                        <control id="cree6_roomnumber" classid="{4273EDBD-AC1D-40D3-9FB2-095C621B552D}" datafieldname="cree6_roomnumber" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{a00cbb4f-124b-48bd-87c6-b7c77137cc6b}" locklevel="0">
+                        <labels>
+                          <label description="Level" languagecode="1033" />
+                        </labels>
+                        <control id="cree6_level" classid="{4273EDBD-AC1D-40D3-9FB2-095C621B552D}" datafieldname="cree6_level" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{9e74cb1a-308c-47c7-acfc-a8f8161eb096}" locklevel="0">
+                        <labels>
+                          <label description="StudentID" languagecode="1033" />
+                        </labels>
+                        <control id="cree6_studentid" classid="{4273EDBD-AC1D-40D3-9FB2-095C621B552D}" datafieldname="cree6_studentid" disabled="false" />
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+              </sections>
+            </column>
+          </columns>
+        </tab>
+      </tabs>
+    </form>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>1</CanBeDeleted>
+    <LocalizedNames>
+      <LocalizedName description="Academic Information" languagecode="1033" />
+    </LocalizedNames>
+  </systemform>
+</forms>

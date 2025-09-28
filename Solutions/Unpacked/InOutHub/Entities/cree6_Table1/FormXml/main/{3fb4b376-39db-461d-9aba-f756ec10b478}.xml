@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <systemform>
+    <formid>{3fb4b376-39db-461d-9aba-f756ec10b478}</formid>
+    <IntroducedVersion>1.0</IntroducedVersion>
+    <FormPresentation>1</FormPresentation>
+    <FormActivationState>1</FormActivationState>
+    <form>
+      <tabs>
+        <tab verticallayout="true" id="{f973082c-7871-4a92-805f-96ab8e884ce5}" IsUserDefined="1">
+          <labels>
+            <label description="General" languagecode="1033" />
+          </labels>
+          <columns>
+            <column width="100%">
+              <sections>
+                <section showlabel="false" showbar="false" IsUserDefined="0" id="{fa8eea11-ece3-4ada-80ff-d954a0adb2ae}">
+                  <labels>
+                    <label description="General" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{75701ecf-dbd9-463a-9ab7-6df3973a85bd}">
+                        <labels>
+                          <label description="RecordCounter" languagecode="1033" />
+                        </labels>
+                        <control id="cree6_newcolumn" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="cree6_newcolumn" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{2db811c8-d6cd-44ec-8f13-29f300c3ff8a}">
+                        <labels>
+                          <label description="Owner" languagecode="1033" />
+                        </labels>
+                        <control id="ownerid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ownerid" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{f979a730-14d8-4edf-bf40-6d4cf64947b8}">
+                        <labels>
+                          <label description="DayRecordTag" languagecode="1033" />
+                        </labels>
+                        <control id="cree6_dayrecordtag" classid="{67fac785-cd58-4f9f-abb3-4b7ddc6ed5ed}" datafieldname="cree6_dayrecordtag" />
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+              </sections>
+            </column>
+          </columns>
+        </tab>
+      </tabs>
+    </form>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>1</CanBeDeleted>
+    <LocalizedNames>
+      <LocalizedName description="Information" languagecode="1033" />
+    </LocalizedNames>
+    <Descriptions>
+      <Description description="A form for this entity." languagecode="1033" />
+    </Descriptions>
+  </systemform>
+</forms>

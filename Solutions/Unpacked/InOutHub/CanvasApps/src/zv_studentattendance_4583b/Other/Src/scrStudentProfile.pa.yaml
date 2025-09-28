@@ -1,0 +1,536 @@
+# ************************************************************************************************
+# Warning: YAML source code for Canvas Apps should only be used to review changes made within Power Apps Studio and for minor edits (Preview).
+# Use the maker portal to create and edit your Power Apps.
+# 
+# The schema file for Canvas Apps is available at https://go.microsoft.com/fwlink/?linkid=2304907
+# 
+# For more information, visit https://go.microsoft.com/fwlink/?linkid=2292623
+# ************************************************************************************************
+Screens:
+  scrStudentProfile:
+    Properties:
+      LoadingSpinnerColor: =RGBA(56, 96, 178, 1)
+      OnVisible: |-
+        =// Reset profile if triggered
+        If(
+            resetProfile = true,
+            Set(
+                varSelectedStudent,
+                Blank()
+            );
+            Reset(cmbStudentSearch);
+            Clear(colGuardians);
+            Reset(radGuardians);
+            UpdateContext({resetProfile: false})
+        );
+        // Populate guardians if we have a student
+        If(
+            !IsBlank(varSelectedStudent),
+            ClearCollect(
+                colGuardians,
+                {
+                    Value: "Mom: " & varSelectedStudent.MotherName,
+                    Code: "Mom"
+                },
+                {
+                    Value: "Dad: " & varSelectedStudent.Father,
+                    Code: "Dad"
+                },
+                {
+                    Value: "Guardian 1: " & varSelectedStudent.Guardian1,
+                    Code: "Guardian 1"
+                },
+                {
+                    Value: "Guardian 2: " & varSelectedStudent.Guardian2,
+                    Code: "Guardian 2"
+                }
+            );
+            // remove blanks so radio control shows only valid guardians
+        ClearCollect(
+                colGuardians,
+                Filter(
+                    colGuardians,
+                    !IsBlank(Value)
+                )
+            )
+        )
+    Children:
+      - shpCheckIn:
+          Control: Rectangle@2.3.0
+          Group: grpCheckIn
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            BorderThickness: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =126
+            Width: =594
+            X: =23
+            Y: =509
+      - lblCheckin:
+          Control: Label@2.5.1
+          Group: grpCheckIn
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Color: =RGBA(56,96,178,1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =44
+            Size: =15
+            Text: ="Manual Check-In"
+            Width: =594
+            X: =23
+            Y: =509
+      - Rectangle2:
+          Control: Rectangle@2.3.0
+          Group: grpQR
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Fill: =Color.White
+            FocusedBorderColor: =Color.LightGray
+            Height: =292
+            Width: =291
+            X: =23
+            Y: =182
+      - shpCheckOut:
+          Control: Rectangle@2.3.0
+          Group: grpCheckOut
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            BorderThickness: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =247
+            Width: =594
+            X: =23
+            Y: =670
+      - btnCheckOut:
+          Control: Classic/Button@2.2.0
+          Group: grpCheckOut
+          Properties:
+            BorderColor: =ColorFade(Self.Fill, -15%)
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+            DisplayMode: |+
+              =If(
+                  IsBlank(radGuardians.Selected.Value),
+                  DisplayMode.Disabled,
+                  DisplayMode.Edit
+              )
+            Fill: =RGBA(56, 96, 178, 1)
+            Font: =Font.'Open Sans'
+            Height: =48
+            HoverBorderColor: =ColorFade(Self.BorderColor, 20%)
+            HoverColor: =RGBA(255, 255, 255, 1)
+            HoverFill: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+            OnSelect: |+
+              =If(
+                  IsBlank(varSelectedStudent),
+                  Notify("No student selected. Please select a student first.", NotificationType.Warning),
+
+                  IsBlank(radGuardians.Selected.Value),
+                  Notify("Please select an authorized guardian for Check Out.", NotificationType.Warning),
+
+                  // Otherwise proceed
+                  With(
+                      {
+                          result: Patch(
+                              Student_Scans,
+                              Defaults(Student_Scans),
+                              {
+                                  Student_QR: varSelectedStudent.IDName,
+                                  PickUpPerson: radGuardians.Selected.Value,   // directly from radio
+                                  ScanType: "mCheck Out",
+                                  SS_Class: varSelectedStudent.Class
+                              }
+                          )
+                      },
+                      If(
+                          IsError(result),
+                          Notify("Check Out failed. Please try again.", NotificationType.Error),
+                          Notify(
+                              varSelectedStudent.cree6_idname & " checked out successfully",
+                              NotificationType.Success
+                          )
+                      )
+                  )
+              );
+
+              // Reset guardian choice
+              Reset(radGuardians);
+            PressedBorderColor: =Self.Fill
+            PressedColor: =Self.Fill
+            PressedFill: =Self.Color
+            Text: ="Check-Out Now"
+            Width: =572
+            X: =34
+            Y: =848
+      - lblCheckOut:
+          Control: Label@2.5.1
+          Group: grpCheckOut
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Color: =RGBA(56,96,178,1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =44
+            Size: =15
+            Text: |-
+              ="Manual Check-Out: Authorized Guardians"
+            Width: =594
+            X: =23
+            Y: =670
+      - imgQRCode:
+          Control: Image@2.2.3
+          Group: grpQR
+          Properties:
+            BorderColor: =RGBA(230,230,230,1)
+            BorderThickness: =1
+            Height: =292
+            Image: |-
+              =If(
+                  !IsBlank(cmbStudentSearch.Selected),
+                  "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" & cmbStudentSearch.Selected.cree6_idname,
+                  ""
+              )
+            Width: =291
+            X: =23
+            Y: =182
+      - conHeader:
+          Control: GroupContainer@1.3.0
+          Variant: AutoLayout
+          Properties:
+            Fill: =RGBA(14, 78, 163, 1)
+            Height: =64
+            LayoutDirection: =LayoutDirection.Horizontal
+            PaddingLeft: =12
+            PaddingRight: =12
+            Width: =Parent.Width
+          Children:
+            - icoBack:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  AlignInContainer: =AlignInContainer.Center
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Color: =Color.White
+                  Height: =50
+                  Icon: =Icon.BackArrow
+                  OnSelect: |+
+                    =Reset(cmbStudentSearch);
+                    Clear(colGuardians);
+                    Reset(radGuardians);
+                    Switch(
+                        varFromScreen,
+                        "Home",
+                            Navigate(Home_Screen, ScreenTransition.Fade),
+                        "ClassDetail",
+                            Navigate(Class_Student_Detail, ScreenTransition.Fade),
+                        "Exceptions",
+                            Navigate(Summary_by_Class_Report, ScreenTransition.Fade),
+                        Navigate(Home_Screen, ScreenTransition.Fade) // fallback
+                    )
+                  Width: =50
+            - lblTitle:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =Align.Center
+                  AlignInContainer: =AlignInContainer.Center
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Color: =Color.White
+                  Fill: =RGBA(0, 7, 140, 0.01)
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Bold
+                  Height: =52
+                  Size: =20
+                  Text: ="Profile"
+                  Width: =520
+                  Y: =9
+      - cmbStudentSearch:
+          Control: Classic/ComboBox@2.4.0
+          Properties:
+            BorderColor: =RGBA(220,200,200,1)
+            ChevronBackground: =RGBA(56, 96, 178, 1)
+            ChevronFill: =RGBA(255, 255, 255, 1)
+            ChevronHoverBackground: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+            ChevronHoverFill: =RGBA(255, 255, 255, 1)
+            DefaultSelectedItems: =If(!IsBlank(varSelectedStudent), [varSelectedStudent])
+            DisplayFields: =["cree6_idname"]
+            Fill: =RGBA(248,248,248,1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =48
+            HoverFill: =RGBA(186, 202, 226, 1)
+            InputTextPlaceholder: ="Find Name"
+            Items: =Student_Infos
+            NoSelectionText: ="Find Name"
+            OnChange: |+
+              =Set(
+                  varSelectedStudent,
+                  cmbStudentSearch.Selected
+              );
+              ClearCollect(
+                  colGuardians,
+                  {
+                      Value: "Mom: " & varSelectedStudent.MotherName,
+                      Code: "Mom"
+                  },
+                  {
+                      Value: "Dad: " & varSelectedStudent.Father,
+                      Code: "Dad"
+                  },
+                  {
+                      Value: "Guardian 1: " & varSelectedStudent.Guardian1,
+                      Code: "Guardian 1"
+                  },
+                  {
+                      Value: "Guardian 2: " & varSelectedStudent.Guardian2,
+                      Code: "Guardian 2"
+                  }
+              );
+
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =RGBA(0, 18, 107, 1)
+            SearchFields: =["cree6_idname"]
+            SelectMultiple: =false
+            SelectionColor: =RGBA(255, 255, 255, 1)
+            SelectionFill: =RGBA(56, 96, 178, 1)
+            Size: =16
+            Width: =594
+            X: =23
+            Y: =99
+      - radGuardians:
+          Control: Classic/Radio@2.3.0
+          Group: grpCheckOut
+          Properties:
+            BorderColor: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Open Sans'
+            Height: =134
+            HoverColor: =RGBA(0, 18, 107, 1)
+            Items: =Filter(colGuardians, !IsBlank(Value))
+            Items.Value: =Value
+            RadioBorderColor: =RGBA(0, 18, 107, 1)
+            RadioSelectionFill: =RGBA(56, 96, 178, 1)
+            RadioSize: =24
+            Size: =16
+            Width: =572
+            X: =32
+            Y: =714
+      - btnCheckIn:
+          Control: Classic/Button@2.2.0
+          Group: grpCheckIn
+          Properties:
+            BorderColor: =ColorFade(Self.Fill, -15%)
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+            DisplayMode: |
+              =If(
+                  IsBlank(cmbStudentSearch.Selected),
+                  DisplayMode.Disabled,
+                  DisplayMode.Edit
+              )
+            Fill: =RGBA(56, 96, 178, 1)
+            Font: =Font.'Open Sans'
+            Height: =48
+            HoverBorderColor: =ColorFade(Self.BorderColor, 20%)
+            HoverColor: =RGBA(255, 255, 255, 1)
+            HoverFill: =ColorFade(Self.Fill,-15%)
+            OnSelect: "=// Ensure a student is selected\r\nIf(\r\n    IsBlank(varSelectedStudent),\r\n    Notify(\"No student selected. Please select a student to check in.\", NotificationType.Warning),\r\n    \r\n    // Otherwise patch the scan\r\n    With(\r\n        {\r\n            result: Patch(\r\n                Student_Scans,\r\n                Defaults(Student_Scans),\r\n                {\r\n                    Student_QR: varSelectedStudent.IDName,\r\n                    ScanType: \"mCheck In\",\r\n                    SS_Class: varSelectedStudent.Class\r\n                }\r\n            )\r\n        },\r\n        If(\r\n            IsError(result),\r\n            Notify(\"Check In failed. Please check connection and try again.\", NotificationType.Error),\r\n            Notify(\r\n                varSelectedStudent.IDName & \" checked in successfully.\",\r\n                NotificationType.Success\r\n            )\r\n        )\r\n    )\r\n);\r\n\r\n\r\n\r\n"
+            PressedBorderColor: =Self.Fill
+            PressedColor: =Self.Fill
+            PressedFill: =Self.Color
+            Text: ="Check-In Now"
+            Width: =572
+            X: =34
+            Y: =570
+      - IcoShareQR:
+          Control: Classic/Icon@2.5.0
+          Group: grpQR
+          Properties:
+            BorderColor: =RGBA(230,230,230,1)
+            BorderThickness: =1
+            Color: =RGBA(255, 255, 255, 1)
+            Fill: =RGBA(221,79,14,1)
+            FocusedBorderThickness: =0
+            Height: =28
+            Icon: =Icon.Share
+            Width: =28
+            X: =286
+            Y: =446
+      - shpShowHistory:
+          Control: Rectangle@2.3.0
+          Group: grpShowHistory
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            BorderThickness: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =126
+            Width: =594
+            X: =23
+            Y: =954
+      - lblShowHistory:
+          Control: Label@2.5.1
+          Group: grpShowHistory
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Color: =RGBA(56,96,178,1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =44
+            Size: =15
+            Text: ="Scan History"
+            Width: =594
+            X: =23
+            Y: =954
+      - btnShowHistory:
+          Control: Classic/Button@2.2.0
+          Group: grpShowHistory
+          Properties:
+            BorderColor: =ColorFade(Self.Fill, -15%)
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+            DisplayMode: |
+              =If(
+                  IsBlank(cmbStudentSearch.Selected),
+                  DisplayMode.Disabled,
+                  DisplayMode.Edit
+              )
+            Fill: =RGBA(76,123,210,1)
+            Font: =Font.'Open Sans'
+            Height: =48
+            HoverBorderColor: =ColorFade(Self.BorderColor, 20%)
+            HoverColor: =RGBA(255, 255, 255, 1)
+            HoverFill: =ColorFade(Self.Fill,-15%)
+            OnSelect: |+
+              =If(
+                  IsBlank(varSelectedStudent),
+                  Notify("Please select a student first.", NotificationType.Warning),
+                  Navigate(
+                      scrScanHistory,
+                      ScreenTransition.Fade,
+                      { varHistoryStudent: varSelectedStudent }
+                  )
+              )
+            PressedBorderColor: =Self.Fill
+            PressedColor: =Self.Fill
+            PressedFill: =Self.Color
+            Text: ="Show Scan History"
+            Width: =572
+            X: =34
+            Y: =1015
+      - lblStatus:
+          Control: Label@2.5.1
+          Group: grpProfileInfo
+          Properties:
+            AutoHeight: =true
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Color: =RGBA(120,120,120,1)
+            Font: =Font.'Open Sans'
+            Height: =56
+            Italic: =true
+            Overflow: =Overflow.Scroll
+            Size: =13
+            Text: |
+              =If(
+                  IsBlank(varSelectedStudent) || IsBlank(varSelectedStudent.IDName),
+                  "No student selected",
+                  With(
+                      {
+                          lastScan: First(
+                              Sort(
+                                  Filter(
+                                      Student_Scans,
+                                      Student_QR = varSelectedStudent.IDName
+                                  ),
+                                  'Created On',
+                                  SortOrder.Descending
+                              )
+                          )
+                      },
+                      If(
+                          IsBlank(lastScan),
+                          "No activity recorded",
+                          If(
+                              Find("Check In", lastScan.ScanType) > 0,
+                              "✅ Last Check In: " & 
+                                  Text(lastScan.'Created On', "mm/dd/yyyy hh:mm AM/PM"),
+                              "🚪 Last Check Out: " & 
+                                  Text(lastScan.'Created On', "mm/dd/yyyy hh:mm AM/PM") & 
+                                  ", Picked up by " & Coalesce(lastScan.PickUpPerson, "Unknown")
+                          )
+                      )
+                  )
+              )
+            Tooltip: =
+            Width: =296
+            X: =319
+            Y: =258
+      - lblRoom:
+          Control: Label@2.5.1
+          Group: grpProfileInfo
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Color: =RGBA(56,96,178,1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =30
+            Size: =15
+            Text: |-
+              ="Class Room # " & Coalesce(varSelectedStudent.ClassRoomNumber, " ")
+            Tooltip: =
+            Width: =268
+            X: =347
+            Y: =212
+      - lblClass:
+          Control: Label@2.5.1
+          Group: grpProfileInfo
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Color: =RGBA(56,96,178,1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =30
+            Size: =15
+            Text: |-
+              ="Class: " & Coalesce(varSelectedStudent.Class, " ")
+            Tooltip: =
+            Width: =269
+            X: =346
+            Y: =182
+      - icoClass:
+          Control: Classic/Icon@2.5.0
+          Group: grpProfileInfo
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Color: =RGBA(0, 178, 178, 1)
+            Height: =24
+            Icon: =Icon.Person
+            Tooltip: =
+            Width: =38
+            X: =319
+            Y: =185
+      - icoClassRoom:
+          Control: Classic/Icon@2.5.0
+          Group: grpProfileInfo
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Color: =RGBA(255, 77, 77, 1)
+            Height: =24
+            Icon: =Icon.Location
+            Tooltip: =
+            Width: =38
+            X: =319
+            Y: =212
+      - IcoHome_1:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Color: =Color.White
+            Height: =50
+            Icon: =Icon.Home
+            OnSelect: |
+              =Reset(cmbStudentSearch);
+              Clear(colGuardians);
+              Reset(radGuardians);
+              Set(varSelectedStudent, Blank());
+              Navigate(Home_Screen, ScreenTransition.Fade);
+            Width: =50
+            X: =582
+            Y: =7

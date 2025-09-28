@@ -1,0 +1,133 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_commondataserviceforapps": {
+        "impersonation": {},
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "zv_sharedcommondataserviceforapps_e6003"
+        },
+        "api": {
+          "name": "shared_commondataserviceforapps"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "undefined",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        }
+      },
+      "triggers": {
+        "Recurrence": {
+          "recurrence": {
+            "frequency": "Week",
+            "interval": 1,
+            "timeZone": "Eastern Standard Time",
+            "startTime": "2024-09-28T10:00:00Z",
+            "schedule": {
+              "weekDays": [
+                "Saturday"
+              ],
+              "hours": [
+                "6"
+              ]
+            }
+          },
+          "metadata": {
+            "operationMetadataId": "1a89fade-4e40-40b9-87e7-08c7a35db010"
+          },
+          "type": "Recurrence"
+        }
+      },
+      "actions": {
+        "List_rows": {
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "7336fe26-6ebe-4e78-8e22-34f004a8f22d"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "parameters": {
+              "entityName": "cree6_student_infos",
+              "$select": "cree6_idname, cree6_class"
+            },
+            "host": {
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+              "connectionName": "shared_commondataserviceforapps",
+              "operationId": "ListRecords"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
+        "For_each": {
+          "foreach": "@outputs('List_rows')?['body/value']",
+          "actions": {
+            "Add_a_new_row": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "1e5100da-266d-4449-8ffb-7ed722e120c1"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "parameters": {
+                  "entityName": "cree6_table11s",
+                  "item/cree6_dayscanid": "@items('For_each')?['cree6_idname']",
+                  "item/cree6_dayscanclass": "@items('For_each')?['cree6_class']",
+                  "item/cree6_scanreportdate": "@convertFromUtc(utcNow(),'Eastern Standard Time', 'yyyyMMdd')"
+                },
+                "host": {
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                  "connectionName": "shared_commondataserviceforapps",
+                  "operationId": "CreateRecord"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            }
+          },
+          "runAfter": {
+            "List_rows": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "ae6230be-39c0-4ef4-a124-512d55c07d99"
+          },
+          "type": "Foreach"
+        },
+        "Add_a_new_row_1": {
+          "runAfter": {
+            "For_each": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "1f6e24b5-2aa4-4f0c-b91a-0a2a08078768"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "parameters": {
+              "entityName": "cree6_table1s",
+              "item/cree6_dayrecordtag": true
+            },
+            "host": {
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+              "connectionName": "shared_commondataserviceforapps",
+              "operationId": "CreateRecord"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        }
+      }
+    },
+    "templateName": null
+  },
+  "schemaVersion": "1.0.0.0"
+}

@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<savedqueries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <savedquery>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>0</CanBeDeleted>
+    <isquickfindquery>0</isquickfindquery>
+    <isprivate>0</isprivate>
+    <isdefault>1</isdefault>
+    <savedqueryid>{562d169f-ca57-4a6f-9823-d80ae71b75f7}</savedqueryid>
+    <layoutxml>
+      <grid name="resultset" jump="cree6_scanid" select="1" icon="1" preview="1">
+        <row name="result" id="cree6_test_scanrecordid">
+          <cell name="cree6_scanid" width="300" />
+          <cell name="createdon" width="125" />
+          <cell name="cree6_checkintag" width="150" />
+          <cell name="cree6_checkouttag" width="150" />
+          <cell name="cree6_scanclass" width="150" />
+          <cell name="cree6_scanstatus" width="150" />
+          <cell name="cree6_reportdate" width="150" />
+        </row>
+      </grid>
+    </layoutxml>
+    <querytype>0</querytype>
+    <fetchxml>
+      <fetch version="1.0" mapping="logical">
+        <entity name="cree6_test_scanrecord">
+          <attribute name="cree6_test_scanrecordid" />
+          <attribute name="cree6_scanid" />
+          <attribute name="createdon" />
+          <order attribute="cree6_scanid" descending="false" />
+          <filter type="and">
+            <condition attribute="statecode" operator="eq" value="0" />
+          </filter>
+          <attribute name="cree6_checkintag" />
+          <attribute name="cree6_checkouttag" />
+          <attribute name="cree6_scanclass" />
+          <attribute name="cree6_scanstatus" />
+          <attribute name="cree6_reportdate" />
+        </entity>
+      </fetch>
+    </fetchxml>
+    <IntroducedVersion>1.0</IntroducedVersion>
+    <LocalizedNames>
+      <LocalizedName description="Active Test_ScanRecords" languagecode="1033" />
+    </LocalizedNames>
+  </savedquery>
+</savedqueries>

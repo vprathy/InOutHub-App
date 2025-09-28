@@ -1,0 +1,62 @@
+{
+  "QualifiedValues": [
+    {
+      "Kind": "default.cds_cree6_student_info_forms",
+      "Namespace": "Student_Infos (Forms)",
+      "Values": {
+        "Academic Information": "bbe64b82-7d57-454c-9346-8f7d8e4339a8",
+        "Academic Records": "e0c330e0-9a24-4267-abac-999cb54c09b8",
+        "Contact Information": "ba4ed70e-4f86-4a05-9f43-badf98982259",
+        "Information": "8a78d0ed-4a26-430f-ae85-ee67a3c6e211",
+        "Personal Details": "4ccef2fe-2cdd-4ac3-81f2-c90f223a0c7a",
+        "Student Full Info": "96b8db24-a8ab-ef11-8a69-000d3a315c88"
+      }
+    },
+    {
+      "Kind": "default.cds_cree6_check_out_scans_forms",
+      "Namespace": "Student_Scans (Forms)",
+      "Values": {
+        "Information": "ab3e9e28-84df-44ac-82bd-575a2c201ea1"
+      }
+    },
+    {
+      "Kind": "default.cds_cree6_table1_forms",
+      "Namespace": "DailyRecordCounters (Forms)",
+      "Values": {
+        "Information": "196b0fc3-ab81-4799-9b56-fe54c8da4858"
+      }
+    },
+    {
+      "Kind": "default.cds_cree6_table11_forms",
+      "Namespace": "ScanReports (Forms)",
+      "Values": {
+        "Information": "744ddbdd-f9ee-4b26-a94d-d4289d8ff577"
+      }
+    },
+    {
+      "Kind": "default.cds_systemuser_forms",
+      "Namespace": "Users (Forms)",
+      "Values": {
+        "Application User": "d26924ef-4d80-46f7-ab1d-e6ae80a54ce8",
+        "Information": "094fb08a-77bb-49e0-b7ea-8dbddfd01294",
+        "User": "c2cd9e55-d4b4-4b55-9951-16ead79643e5",
+        "User form – Business": "c2413504-7eb2-4c59-a087-95d819866114",
+        "User Hierarchy Tile Form": "c68d6c09-d7a7-4959-8d0f-44b8cff9b452"
+      }
+    },
+    {
+      "Kind": "default.cds_cree6_check_inscans_forms",
+      "Namespace": "Check_In_Scans (Forms)",
+      "Values": {
+        "Information": "ada711e3-f6b8-4ba2-a726-a26e832b0ffb"
+      }
+    },
+    {
+      "Kind": "default.cds_cree6_check_out_scans_forms",
+      "Namespace": "Check_Out_Scans (Forms)",
+      "Values": {
+        "Information": "ab3e9e28-84df-44ac-82bd-575a2c201ea1"
+      }
+    }
+  ]
+}

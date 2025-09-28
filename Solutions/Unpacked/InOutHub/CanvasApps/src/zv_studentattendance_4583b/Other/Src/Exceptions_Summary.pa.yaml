@@ -1,0 +1,244 @@
+# ************************************************************************************************
+# Warning: YAML source code for Canvas Apps should only be used to review changes made within Power Apps Studio and for minor edits (Preview).
+# Use the maker portal to create and edit your Power Apps.
+# 
+# The schema file for Canvas Apps is available at https://go.microsoft.com/fwlink/?linkid=2304907
+# 
+# For more information, visit https://go.microsoft.com/fwlink/?linkid=2292623
+# ************************************************************************************************
+Screens:
+  Exceptions_Summary:
+    Properties:
+      LoadingSpinnerColor: =RGBA(56, 96, 178, 1)
+      OnVisible: |
+        =
+    Children:
+      - Gallery1_1:
+          Control: Gallery@2.15.0
+          Variant: Vertical
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Height: =786
+            Items: =Sort(Exceptions, DayScanClass)
+            TemplateSize: =46
+            Y: =304
+          Children:
+            - Label3_1:
+                Control: Label@2.5.1
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  DisplayMode: =DisplayMode.View
+                  Font: =Font.'Open Sans'
+                  Height: =25
+                  OnSelect: =Select(Parent)
+                  Size: =16
+                  Text: =ThisItem.DayScanID
+                  Width: =375
+                  X: =76
+                  Y: =8
+            - Label4_2:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =Align.Center
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Font: =Font.'Open Sans'
+                  Height: =25
+                  OnSelect: =Select(Parent)
+                  Size: =16
+                  Text: =ThisItem.CheckInTag
+                  Width: =66
+                  X: =408
+                  Y: =8
+            - Label4_3:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =Align.Center
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Font: =Font.'Open Sans'
+                  Height: =25
+                  OnSelect: =Select(Parent)
+                  Size: =16
+                  Text: =ThisItem.CheckOutTag
+                  Width: =60
+                  X: =513
+                  Y: =8
+            - Rectangle4_3:
+                Control: Rectangle@2.3.0
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Fill: =RGBA(56, 96, 178, 1)
+                  Height: =4
+                  OnSelect: =Select(Parent)
+                  Width: =626
+                  X: =4
+                  Y: =41
+            - Label4_4:
+                Control: Label@2.5.1
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Font: =Font.'Open Sans'
+                  Height: =25
+                  OnSelect: =Select(Parent)
+                  Size: =16
+                  Text: =ThisItem.DayScanClass
+                  Width: =78
+                  X: =12
+                  Y: =8
+            - NextArrow1_3:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  AccessibleLabel: =Self.Tooltip
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Color: =RGBA(166, 166, 166, 1)
+                  Fill: =RGBA(255, 255, 255, 1)
+                  Height: =40
+                  Icon: =Icon.ChevronRight
+                  OnSelect: |
+                    =// 1) Resolve Exceptions row -> Student_Infos record (from cache)
+                    Set(
+                        varSelectedStudent,
+                        LookUp(Student_Infos_Cache, IDName = ThisItem.DayScanID)
+                    );
+
+                    // 2) If missing in cache, try the table once (optional fallback)
+                    If(
+                        IsBlank(varSelectedStudent),
+                        Set(varSelectedStudent, LookUp(Student_Infos, IDName = ThisItem.DayScanID))
+                    );
+
+                    // 3) Navigate; do NOT reset the profile
+                    Navigate(
+                        scrStudentProfile,
+                        ScreenTransition.Fade,
+                        { resetProfile: false, ctxId: ThisItem.DayScanID }
+                    );
+
+                    // Track where we came from (optional)
+                    Set(varFromScreen, "Exceptions");
+                  PaddingBottom: =12
+                  PaddingLeft: =12
+                  PaddingRight: =12
+                  PaddingTop: =12
+                  Tooltip: ="View item details"
+                  Width: =50
+                  X: =571
+      - Label2_12:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =47
+            Size: =16
+            Text: ="Student ID Name"
+            Width: =322
+            X: =79
+            Y: =253
+      - Label2_13:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =46
+            Size: =16
+            Text: ="Check In"
+            Width: =119
+            X: =391
+            Y: =253
+      - Label2_14:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =46
+            Size: =16
+            Text: ="Check Out"
+            Width: =120
+            X: =502
+            Y: =253
+      - Rectangle4_4:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Fill: =RGBA(56, 96, 178, 1)
+            Height: =4
+            Width: =626
+            X: =7
+            Y: =303
+      - Label2_15:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =46
+            Size: =16
+            Text: ="Class"
+            Width: =89
+            X: =15
+            Y: =253
+      - Label8_2:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Color: =RGBA(255, 0, 0, 1)
+            Font: =Font.'Open Sans'
+            Height: =39
+            Italic: =true
+            Size: =14
+            Text: ="Summary Data as of"
+            Width: =185
+            X: =22
+            Y: =204
+      - Label8_3:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Color: =RGBA(255, 0, 0, 1)
+            Font: =Font.'Open Sans'
+            Height: =39
+            Italic: =true
+            Size: =14
+            Text: =ReportTime
+            Width: =150
+            X: =202
+            Y: =204
+      - Check_In_Screen_Header_3:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =46
+            Size: =30
+            Text: ="Exceptions"
+            Width: =368
+            X: =132
+            Y: =49
+      - Back_Icon_4:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Color: =RGBA(0, 18, 107, 1)
+            Height: =46
+            Icon: =Icon.BackArrow
+            OnSelect: =Navigate(Summary_by_Class_Report)
+            Width: =46
+            X: =49
+            Y: =49
+      - Icon4_1:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Color: =RGBA(0, 18, 107, 1)
+            Height: =46
+            Icon: =Icon.Home
+            OnSelect: =Navigate(Home_Screen)
+            Width: =46
+            X: =563
+            Y: =49

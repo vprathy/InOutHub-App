@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <systemform>
+    <formid>{4a9f096f-0e8b-4f79-97bf-ecf56439a6b4}</formid>
+    <IntroducedVersion>1.0</IntroducedVersion>
+    <FormPresentation>1</FormPresentation>
+    <FormActivationState>1</FormActivationState>
+    <form>
+      <tabs>
+        <tab verticallayout="true" id="{c1e707d0-6f9d-49ee-9f2c-6e075f1610be}" IsUserDefined="1">
+          <labels>
+            <label description="General" languagecode="1033" />
+          </labels>
+          <columns>
+            <column width="100%">
+              <sections>
+                <section showlabel="false" showbar="false" IsUserDefined="0" id="{7d8f72e5-1964-47d7-9ca6-45a70281f744}">
+                  <labels>
+                    <label description="General" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{b3bc4d22-57c5-468f-95e9-38a48673e539}">
+                        <labels>
+                          <label description="Scan ID" languagecode="1033" />
+                        </labels>
+                        <control id="cree6_scanid" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="cree6_scanid" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{78bdeac0-c461-4c83-a0b1-a0a0fc8517ba}">
+                        <labels>
+                          <label description="Owner" languagecode="1033" />
+                        </labels>
+                        <control id="ownerid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ownerid" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{a2f0c946-8184-4f6c-83f4-65ce77ee34af}">
+                        <labels>
+                          <label description="Check-In Tag" languagecode="1033" />
+                        </labels>
+                        <control id="cree6_checkintag" classid="{67fac785-cd58-4f9f-abb3-4b7ddc6ed5ed}" datafieldname="cree6_checkintag" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{c74131ba-61cd-46dd-8375-132490673009}">
+                        <labels>
+                          <label description="Check-Out Tag" languagecode="1033" />
+                        </labels>
+                        <control id="cree6_checkouttag" classid="{67fac785-cd58-4f9f-abb3-4b7ddc6ed5ed}" datafieldname="cree6_checkouttag" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{23eefbb3-79c8-4284-99d3-dc0f974c670a}">
+                        <labels>
+                          <label description="Scan Class" languagecode="1033" />
+                        </labels>
+                        <control id="cree6_scanclass" classid="{4273edbd-ac1d-40d3-9fb2-095c621b552d}" datafieldname="cree6_scanclass" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{dfdaa617-356b-4e6f-aaf1-80770689eae1}">
+                        <labels>
+                          <label description="Scan Status" languagecode="1033" />
+                        </labels>
+                        <control id="cree6_scanstatus" classid="{4273edbd-ac1d-40d3-9fb2-095c621b552d}" datafieldname="cree6_scanstatus" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{419d13ea-1028-42de-ae87-c0c8d91d5708}">
+                        <labels>
+                          <label description="Report Date" languagecode="1033" />
+                        </labels>
+                        <control id="cree6_reportdate" classid="{4273edbd-ac1d-40d3-9fb2-095c621b552d}" datafieldname="cree6_reportdate" />
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+              </sections>
+            </column>
+          </columns>
+        </tab>
+      </tabs>
+    </form>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>1</CanBeDeleted>
+    <LocalizedNames>
+      <LocalizedName description="Information" languagecode="1033" />
+    </LocalizedNames>
+    <Descriptions>
+      <Description description="A form for this entity." languagecode="1033" />
+    </Descriptions>
+  </systemform>
+</forms>

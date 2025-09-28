@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<savedqueries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <savedquery>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>0</CanBeDeleted>
+    <isquickfindquery>0</isquickfindquery>
+    <isprivate>0</isprivate>
+    <isdefault>1</isdefault>
+    <savedqueryid>{69f67eeb-a445-4e88-92e8-1f3e253b1136}</savedqueryid>
+    <layoutxml>
+      <grid name="cree6_table11s" jump="cree6_dayscanid" select="1" icon="1" preview="1">
+        <row name="cree6_table11" id="cree6_table11id">
+          <cell name="cree6_dayscanid" width="300" />
+          <cell name="createdon" width="125" />
+        </row>
+      </grid>
+    </layoutxml>
+    <querytype>2</querytype>
+    <fetchxml>
+      <fetch version="1.0" mapping="logical">
+        <entity name="cree6_table11">
+          <attribute name="cree6_table11id" />
+          <attribute name="cree6_dayscanid" />
+          <attribute name="createdon" />
+          <order attribute="cree6_dayscanid" descending="false" />
+          <filter type="and">
+            <condition attribute="statecode" operator="eq" value="0" />
+          </filter>
+        </entity>
+      </fetch>
+    </fetchxml>
+    <IntroducedVersion>1.0</IntroducedVersion>
+    <LocalizedNames>
+      <LocalizedName description="ScanReport Associated View" languagecode="1033" />
+    </LocalizedNames>
+  </savedquery>
+</savedqueries>

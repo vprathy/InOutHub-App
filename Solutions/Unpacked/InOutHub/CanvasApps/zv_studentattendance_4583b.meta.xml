@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CanvasApp xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Name>zv_studentattendance_4583b</Name>
+  <AppVersion>2025-09-27T16:30:08Z</AppVersion>
+  <Status>Ready</Status>
+  <CreatedByClientVersion>3.25092.9.0</CreatedByClientVersion>
+  <MinClientVersion>3.25092.9.0</MinClientVersion>
+  <Tags>{"primaryDeviceWidth":"640","primaryDeviceHeight":"1136","supportsPortrait":"true","supportsLandscape":"false","primaryFormFactor":"Phone","showStatusBar":"true","publisherVersion":"3.25092.9","minimumRequiredApiVersion":"2.2.0","hasComponent":"false","hasUnlockedComponent":"false","isUnifiedRootApp":"false","sienaVersion":"20250921T074235Z-3.25091.7.0"}</Tags>
+  <IsCdsUpgraded>0</IsCdsUpgraded>
+  <GalleryItemId xsi:nil="true"></GalleryItemId>
+  <BackgroundColor>rgba(246, 88, 16, 1)</BackgroundColor>
+  <DisplayName>TestApp</DisplayName>
+  <Description>Added Student / Volunteer Profile Screen</Description>
+  <CommitMessage xsi:nil="true"></CommitMessage>
+  <Publisher xsi:nil="true"></Publisher>
+  <AuthorizationReferences>[]</AuthorizationReferences>
+  <ConnectionReferences>{}</ConnectionReferences>
+  <DatabaseReferences>{"default.cds":{"databaseDetails":{"referenceType":"Environmental","environmentName":"default.cds","overrideValues":{"status":"NotSpecified","environmentVariableName":""}},"dataSources":{"Student_Infos":{"entitySetName":"cree6_student_infos","logicalName":"cree6_student_info"},"Student_Scans":{"entitySetName":"cree6_check_out_scanses","logicalName":"cree6_check_out_scans"},"ScanReports":{"entitySetName":"cree6_table11s","logicalName":"cree6_table11"},"Users":{"entitySetName":"systemusers","logicalName":"systemuser"}}}}</DatabaseReferences>
+  <AppComponents>[]</AppComponents>
+  <AppComponentDependencies>[]</AppComponentDependencies>
+  <CanConsumeAppPass>1</CanConsumeAppPass>
+  <CanvasAppType>0</CanvasAppType>
+  <BypassConsent>0</BypassConsent>
+  <AdminControlBypassConsent>0</AdminControlBypassConsent>
+  <EmbeddedApp xsi:nil="true"></EmbeddedApp>
+  <IntroducedVersion>1.0</IntroducedVersion>
+  <CdsDependencies>{"cdsdependencies":[{"logicalname":"cree6_student_info","componenttype":1},{"logicalname":"cree6_check_out_scans","componenttype":1},{"logicalname":"cree6_table11","componenttype":1},{"logicalname":"systemuser","componenttype":1}]}</CdsDependencies>
+  <IsCustomizable>1</IsCustomizable>
+  <BackgroundImageUri>/CanvasApps/zv_studentattendance_4583b_BackgroundImageUri</BackgroundImageUri>
+  <DocumentUri>/CanvasApps/zv_studentattendance_4583b_DocumentUri.msapp</DocumentUri>
+  <AdditionalUris>
+    <AdditionalUri>/CanvasApps/zv_studentattendance_4583b_AdditionalUris0_identity.json</AdditionalUri>
+  </AdditionalUris>
+</CanvasApp>

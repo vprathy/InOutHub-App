@@ -1,0 +1,513 @@
+scrStudentProfile As screen:
+    OnVisible: |-
+        =// Reset profile if triggered
+        If(
+            resetProfile = true,
+            Set(
+                varSelectedStudent,
+                Blank()
+            );
+            Reset(cmbStudentSearch);
+            Clear(colGuardians);
+            Reset(radGuardians);
+            UpdateContext({resetProfile: false})
+        );
+        // Populate guardians if we have a student
+        If(
+            !IsBlank(varSelectedStudent),
+            ClearCollect(
+                colGuardians,
+                {
+                    Value: "Mom: " & varSelectedStudent.MotherName,
+                    Code: "Mom"
+                },
+                {
+                    Value: "Dad: " & varSelectedStudent.Father,
+                    Code: "Dad"
+                },
+                {
+                    Value: "Guardian 1: " & varSelectedStudent.Guardian1,
+                    Code: "Guardian 1"
+                },
+                {
+                    Value: "Guardian 2: " & varSelectedStudent.Guardian2,
+                    Code: "Guardian 2"
+                }
+            );
+            // remove blanks so radio control shows only valid guardians
+        ClearCollect(
+                colGuardians,
+                Filter(
+                    colGuardians,
+                    !IsBlank(Value)
+                )
+            )
+        )
+
+    conHeader As groupContainer.horizontalAutoLayoutContainer:
+        Fill: =RGBA(14, 78, 163, 1)
+        Height: =64
+        LayoutMode: =LayoutMode.Auto
+        PaddingLeft: =12
+        PaddingRight: =12
+        Width: =Parent.Width
+        ZIndex: =8
+
+        icoBack As icon.BackArrow:
+            AlignInContainer: =AlignInContainer.Center
+            Color: =Color.White
+            Height: =50
+            Icon: =Icon.BackArrow
+            OnSelect: |
+                =Reset(cmbStudentSearch);
+                Clear(colGuardians);
+                Reset(radGuardians);
+                Switch(
+                    varFromScreen,
+                    "Home",
+                        Navigate(Home_Screen, ScreenTransition.Fade),
+                    "ClassDetail",
+                        Navigate(Class_Student_Detail, ScreenTransition.Fade),
+                    "Exceptions",
+                        Navigate(Summary_by_Class_Report, ScreenTransition.Fade),
+                    Navigate(Home_Screen, ScreenTransition.Fade) // fallback
+                )
+            Width: =50
+            ZIndex: =1
+
+        lblTitle As label:
+            Align: =Align.Center
+            AlignInContainer: =AlignInContainer.Center
+            Color: =Color.White
+            Fill: =RGBA(0, 7, 140, 0.01)
+            FontWeight: =FontWeight.Bold
+            Height: =52
+            LayoutMinHeight: =70
+            LayoutMinWidth: =560
+            Size: =20
+            Text: ="Profile"
+            Width: =520
+            Y: =9
+            ZIndex: =2
+
+    cmbStudentSearch As combobox:
+        BorderColor: =RGBA(220,200,200,1)
+        DefaultSelectedItems: =If(!IsBlank(varSelectedStudent), [varSelectedStudent])
+        DisplayFields: =["cree6_idname"]
+        Fill: =RGBA(248,248,248,1)
+        FontWeight: =FontWeight.Bold
+        Height: =48
+        InputTextPlaceholder: ="Find Name"
+        Items: =Student_Infos
+        NoSelectionText: ="Find Name"
+        OnChange: |+
+            =Set(
+                varSelectedStudent,
+                cmbStudentSearch.Selected
+            );
+            ClearCollect(
+                colGuardians,
+                {
+                    Value: "Mom: " & varSelectedStudent.MotherName,
+                    Code: "Mom"
+                },
+                {
+                    Value: "Dad: " & varSelectedStudent.Father,
+                    Code: "Dad"
+                },
+                {
+                    Value: "Guardian 1: " & varSelectedStudent.Guardian1,
+                    Code: "Guardian 1"
+                },
+                {
+                    Value: "Guardian 2: " & varSelectedStudent.Guardian2,
+                    Code: "Guardian 2"
+                }
+            );
+            
+        SearchFields: =["cree6_idname"]
+        SearchItems: =Search(Student_Infos,cmbStudentSearch.SearchText,cree6_idname)
+        SelectMultiple: =false
+        Size: =16
+        Width: =594
+        X: =23
+        Y: =99
+        ZIndex: =9
+
+    grpQR As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =18
+
+        Rectangle2 As rectangle:
+            Fill: =Color.White
+            FocusedBorderColor: =Color.LightGray
+            Height: =292
+            Width: =291
+            X: =23
+            Y: =182
+            ZIndex: =3
+
+        imgQRCode As image:
+            BorderColor: =RGBA(230,230,230,1)
+            BorderThickness: =1
+            Height: =292
+            Image: |-
+                =If(
+                    !IsBlank(cmbStudentSearch.Selected),
+                    "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" & cmbStudentSearch.Selected.cree6_idname,
+                    ""
+                )
+            Width: =291
+            X: =23
+            Y: =182
+            ZIndex: =7
+
+        IcoShareQR As icon.Share:
+            BorderColor: =RGBA(230,230,230,1)
+            BorderThickness: =1
+            Color: =RGBA(255, 255, 255, 1)
+            Fill: =RGBA(221,79,14,1)
+            FocusedBorderThickness: =0
+            Height: =28
+            Icon: =Icon.Share
+            Width: =28
+            X: =286
+            Y: =446
+            ZIndex: =12
+
+    grpProfileInfo As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =18
+
+        lblStatus As label:
+            AutoHeight: =true
+            Color: =RGBA(120,120,120,1)
+            Height: =56
+            Italic: =true
+            Overflow: =Overflow.Scroll
+            Text: |
+                =If(
+                    IsBlank(varSelectedStudent) || IsBlank(varSelectedStudent.IDName),
+                    "No student selected",
+                    With(
+                        {
+                            lastScan: First(
+                                Sort(
+                                    Filter(
+                                        Student_Scans,
+                                        Student_QR = varSelectedStudent.IDName
+                                    ),
+                                    'Created On',
+                                    SortOrder.Descending
+                                )
+                            )
+                        },
+                        If(
+                            IsBlank(lastScan),
+                            "No activity recorded",
+                            If(
+                                Find("Check In", lastScan.ScanType) > 0,
+                                "✅ Last Check In: " & 
+                                    Text(lastScan.'Created On', "mm/dd/yyyy hh:mm AM/PM"),
+                                "🚪 Last Check Out: " & 
+                                    Text(lastScan.'Created On', "mm/dd/yyyy hh:mm AM/PM") & 
+                                    ", Picked up by " & Coalesce(lastScan.PickUpPerson, "Unknown")
+                            )
+                        )
+                    )
+                )
+            Tooltip: =
+            Width: =296
+            X: =319
+            Y: =258
+            ZIndex: =16
+
+        lblRoom As label:
+            Color: =RGBA(56,96,178,1)
+            FontWeight: =FontWeight.Semibold
+            Height: =30
+            Size: =15
+            Text: |-
+                ="Class Room # " & Coalesce(varSelectedStudent.ClassRoomNumber, " ")
+            Tooltip: =
+            Width: =268
+            X: =347
+            Y: =212
+            ZIndex: =17
+
+        lblClass As label:
+            Color: =RGBA(56,96,178,1)
+            FontWeight: =FontWeight.Semibold
+            Height: =30
+            Size: =15
+            Text: |-
+                ="Class: " & Coalesce(varSelectedStudent.Class, " ")
+            Tooltip: =
+            Width: =269
+            X: =346
+            Y: =182
+            ZIndex: =18
+
+        icoClass As icon.Person:
+            Color: =RGBA(0, 178, 178, 1)
+            Height: =24
+            Icon: =Icon.Person
+            Tooltip: =
+            Width: =38
+            X: =319
+            Y: =185
+            ZIndex: =19
+
+        icoClassRoom As icon:
+            Color: =RGBA(255, 77, 77, 1)
+            Height: =24
+            Icon: =Icon.Location
+            Tooltip: =
+            Width: =38
+            X: =319
+            Y: =212
+            ZIndex: =20
+
+    grpCheckIn As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =18
+
+        shpCheckIn As rectangle:
+            BorderThickness: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =126
+            Width: =594
+            X: =23
+            Y: =509
+            ZIndex: =1
+
+        lblCheckin As label:
+            Color: =RGBA(56,96,178,1)
+            FontWeight: =FontWeight.Semibold
+            Height: =44
+            Size: =15
+            Text: ="Manual Check-In"
+            Width: =594
+            X: =23
+            Y: =509
+            ZIndex: =2
+
+        btnCheckIn As button:
+            DisplayMode: |
+                =If(
+                    IsBlank(cmbStudentSearch.Selected),
+                    DisplayMode.Disabled,
+                    DisplayMode.Edit
+                )
+            Height: =48
+            HoverFill: =ColorFade(Self.Fill,-15%)
+            OnSelect: |+
+                =// Ensure a student is selected
+                If(
+                    IsBlank(varSelectedStudent),
+                    Notify("No student selected. Please select a student to check in.", NotificationType.Warning),
+                    
+                    // Otherwise patch the scan
+                    With(
+                        {
+                            result: Patch(
+                                Student_Scans,
+                                Defaults(Student_Scans),
+                                {
+                                    Student_QR: varSelectedStudent.IDName,
+                                    ScanType: "mCheck In",
+                                    SS_Class: varSelectedStudent.Class
+                                }
+                            )
+                        },
+                        If(
+                            IsError(result),
+                            Notify("Check In failed. Please check connection and try again.", NotificationType.Error),
+                            Notify(
+                                varSelectedStudent.IDName & " checked in successfully.",
+                                NotificationType.Success
+                            )
+                        )
+                    )
+                );
+                
+                
+                
+            Size: =24
+            Text: ="Check-In Now"
+            Width: =572
+            X: =34
+            Y: =570
+            ZIndex: =11
+
+    grpCheckOut As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =19
+
+        shpCheckOut As rectangle:
+            BorderThickness: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =247
+            Width: =594
+            X: =23
+            Y: =670
+            ZIndex: =4
+
+        btnCheckOut As button:
+            DisplayMode: |
+                =If(
+                    IsBlank(radGuardians.Selected.Value),
+                    DisplayMode.Disabled,
+                    DisplayMode.Edit
+                )
+            Height: =48
+            OnSelect: |
+                =If(
+                    IsBlank(varSelectedStudent),
+                    Notify("No student selected. Please select a student first.", NotificationType.Warning),
+                
+                    IsBlank(radGuardians.Selected.Value),
+                    Notify("Please select an authorized guardian for Check Out.", NotificationType.Warning),
+                
+                    // Otherwise proceed
+                    With(
+                        {
+                            result: Patch(
+                                Student_Scans,
+                                Defaults(Student_Scans),
+                                {
+                                    Student_QR: varSelectedStudent.IDName,
+                                    PickUpPerson: radGuardians.Selected.Value,   // directly from radio
+                                    ScanType: "mCheck Out",
+                                    SS_Class: varSelectedStudent.Class
+                                }
+                            )
+                        },
+                        If(
+                            IsError(result),
+                            Notify("Check Out failed. Please try again.", NotificationType.Error),
+                            Notify(
+                                varSelectedStudent.cree6_idname & " checked out successfully",
+                                NotificationType.Success
+                            )
+                        )
+                    )
+                );
+                
+                // Reset guardian choice
+                Reset(radGuardians);
+            Size: =24
+            Text: ="Check-Out Now"
+            Width: =572
+            X: =34
+            Y: =848
+            ZIndex: =5
+
+        lblCheckOut As label:
+            Color: =RGBA(56,96,178,1)
+            FontWeight: =FontWeight.Semibold
+            Height: =44
+            Size: =15
+            Text: |-
+                ="Manual Check-Out: Authorized Guardians"
+            Width: =594
+            X: =23
+            Y: =670
+            ZIndex: =6
+
+        radGuardians As radio:
+            BorderColor: =RGBA(255, 255, 255, 1)
+            Height: =134
+            Items: =Filter(colGuardians, !IsBlank(Value))
+            RadioSelectionFill: =RGBA(56, 96, 178, 1)
+            RadioSize: =24
+            Size: =16
+            Width: =572
+            X: =32
+            Y: =714
+            ZIndex: =10
+
+    IcoHome_1 As icon:
+        Color: =Color.White
+        Height: =50
+        Icon: =Icon.Home
+        OnSelect: |
+            =Reset(cmbStudentSearch);
+            Clear(colGuardians);
+            Reset(radGuardians);
+            Set(varSelectedStudent, Blank());
+            Navigate(Home_Screen, ScreenTransition.Fade);
+        Width: =50
+        X: =582
+        Y: =7
+        ZIndex: =21
+
+    grpShowHistory As group:
+        Height: =5
+        minimumHeight: =5
+        minimumWidth: =5
+        Visible: =true
+        Width: =5
+        X: =20
+        Y: =20
+        ZIndex: =21
+
+        shpShowHistory As rectangle:
+            BorderThickness: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =126
+            Width: =594
+            X: =23
+            Y: =954
+            ZIndex: =13
+
+        lblShowHistory As label:
+            Color: =RGBA(56,96,178,1)
+            FontWeight: =FontWeight.Semibold
+            Height: =44
+            Size: =15
+            Text: ="Scan History"
+            Width: =594
+            X: =23
+            Y: =954
+            ZIndex: =14
+
+        btnShowHistory As button:
+            DisplayMode: |
+                =If(
+                    IsBlank(cmbStudentSearch.Selected),
+                    DisplayMode.Disabled,
+                    DisplayMode.Edit
+                )
+            Fill: =RGBA(76,123,210,1)
+            Height: =48
+            HoverFill: =ColorFade(Self.Fill,-15%)
+            OnSelect: |
+                =If(
+                    IsBlank(varSelectedStudent),
+                    Notify("Please select a student first.", NotificationType.Warning),
+                    Navigate(
+                        scrScanHistory,
+                        ScreenTransition.Fade,
+                        { varHistoryStudent: varSelectedStudent }
+                    )
+                )
+            Size: =24
+            Text: ="Show Scan History"
+            Width: =572
+            X: =34
+            Y: =1015
+            ZIndex: =15
+

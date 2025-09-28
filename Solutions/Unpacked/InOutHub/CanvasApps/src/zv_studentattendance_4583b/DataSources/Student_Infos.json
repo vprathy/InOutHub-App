@@ -1,0 +1,106 @@
+[
+  {
+    "CdsFCBContext": "{\"FileType\":true,\"ImageExternalStorage\":true}",
+    "EntitySetName": "cree6_student_infos",
+    "IsHidden": false,
+    "IsSampleData": false,
+    "IsWritable": true,
+    "LogicalName": "cree6_student_info",
+    "MaxGetRowsCount": 500,
+    "Name": "Student_Infos",
+    "NativeCDSDataSourceInfoNameMapping": {
+      "_ownerid_value": "Owner",
+      "createdby": "Created By",
+      "createdon": "Created On",
+      "createdonbehalfby": "Created By (Delegate)",
+      "cree6_class": "Class",
+      "cree6_fathersname": "Father",
+      "cree6_guardian1": "Guardian1",
+      "cree6_guardian2": "Guardian2",
+      "cree6_idname": "IDName",
+      "cree6_level": "Level",
+      "cree6_mothersname": "MotherName",
+      "cree6_roomnumber": "ClassRoomNumber",
+      "cree6_student_info_AsyncOperations": "System Jobs",
+      "cree6_student_info_BulkDeleteFailures": "Bulk Delete Failures",
+      "cree6_student_info_MailboxTrackingFolders": "Mailbox Auto Tracking Folders",
+      "cree6_student_info_PrincipalObjectAttributeAccesses": "Field Sharing",
+      "cree6_student_info_ProcessSession": "Process Sessions",
+      "cree6_student_info_SyncErrors": "Sync Errors",
+      "cree6_student_infoid": "Student_Info",
+      "cree6_studentid": "StudentID",
+      "cree6_studentname": "StudentName",
+      "importsequencenumber": "Import Sequence Number",
+      "modifiedby": "Modified By",
+      "modifiedon": "Modified On",
+      "modifiedonbehalfby": "Modified By (Delegate)",
+      "overriddencreatedon": "Record Created On",
+      "owningbusinessunit": "Owning Business Unit",
+      "owningteam": "Owning Team",
+      "owninguser": "Owning User",
+      "statecode": "Status",
+      "statuscode": "Status Reason",
+      "timezoneruleversionnumber": "Time Zone Rule Version Number",
+      "utcconversiontimezonecode": "UTC Conversion Time Zone Code",
+      "versionnumber": "Version Number"
+    },
+    "PreferredName": "Student_Infos",
+    "Type": "NativeCDSDataSourceInfo"
+  },
+  {
+    "DisplayName": "Student_Infos (Views)",
+    "Name": "_cree6_student_info_views",
+    "RelatedEntityName": "Student_Infos",
+    "TrimmedViewName": true,
+    "Type": "ViewInfo",
+    "ViewInfoNameMapping": {
+      "085435ee-de3d-4eb7-9fbb-597673deba79": "Student_Info Lookup View",
+      "174dcb82-196f-4dca-aeea-afbcdb51cd10": "Active Student_Infos",
+      "2f5683c3-107b-471e-9904-7da9af8a1701": "Student_Info Advanced Find View",
+      "70262a88-10ff-431b-b0bf-eae7e78fd606": "Student_Info Associated View",
+      "91c5087c-0ed4-43db-89dd-0970c17cd77f": "Inactive Student_Infos",
+      "c11bc27d-28b4-ef11-b8e8-000d3a315c88": "Student_Info_QR View",
+      "e71fc024-a7ab-ef11-8a69-000d3a3329e1": "Student Info View for Update"
+    }
+  },
+  {
+    "DisplayName": "Status (Student_Infos)",
+    "Name": "cree6_student_info_statecode",
+    "OptionSetInfoNameMapping": {
+      "0": "Active",
+      "1": "Inactive"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "statecode",
+        "OptionSetReferenceEntityName": "Student_Infos"
+      }
+    },
+    "OptionSetTypeKey": "StateType",
+    "RelatedColumnInvariantName": "statecode",
+    "RelatedEntityName": "Student_Infos",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Status Reason (Student_Infos)",
+    "Name": "cree6_student_info_statuscode",
+    "OptionSetInfoNameMapping": {
+      "1": "Active",
+      "2": "Inactive"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "statuscode",
+        "OptionSetReferenceEntityName": "Student_Infos"
+      }
+    },
+    "OptionSetTypeKey": "StatusType",
+    "RelatedColumnInvariantName": "statuscode",
+    "RelatedEntityName": "Student_Infos",
+    "Type": "OptionSetInfo"
+  }
+]

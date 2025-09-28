@@ -1,0 +1,243 @@
+scrScanHistory As screen:
+    OnVisible: |
+        =ClearCollect(
+            colScanHistory,
+            Sort(
+                Filter(
+                    Student_Scans,
+                    Student_QR = varHistoryStudent.cree6_idname
+                ),
+                'Created On',
+                SortOrder.Descending
+            )
+        );
+        Set(varLastRefreshed, Now());
+
+    conHeader_1 As groupContainer.horizontalAutoLayoutContainer:
+        Fill: =RGBA(14, 78, 163, 1)
+        Height: =64
+        LayoutMode: =LayoutMode.Auto
+        maximumHeight: =11360
+        maximumWidth: =640
+        PaddingLeft: =12
+        PaddingRight: =12
+        Width: =Parent.Width
+        ZIndex: =1
+
+        icoBack_1 As icon:
+            AlignInContainer: =AlignInContainer.Center
+            Color: =Color.White
+            Height: =50
+            Icon: =Icon.BackArrow
+            OnSelect: =Back()
+            Width: =50
+            ZIndex: =1
+
+        lblTitle_1 As label:
+            Align: =Align.Center
+            AlignInContainer: =AlignInContainer.Center
+            Color: =Color.White
+            Fill: =RGBA(0, 7, 140, 0.01)
+            FontWeight: =FontWeight.Bold
+            Height: =52
+            LayoutMinHeight: =70
+            LayoutMinWidth: =560
+            Size: =20
+            Text: ="Scan History"
+            Width: =520
+            Y: =9
+            ZIndex: =2
+
+        IcoHome As icon:
+            AlignInContainer: =AlignInContainer.Center
+            Color: =Color.White
+            Height: =50
+            Icon: =Icon.Home
+            OnSelect: |-
+                =Reset(cmbStudentSearch);
+                Clear(colGuardians);
+                Reset(radGuardians);
+                Navigate(Home_Screen);
+            Width: =50
+            ZIndex: =3
+
+    shpScanHistory As rectangle:
+        BorderThickness: =1
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =870
+        Width: =594
+        X: =22
+        Y: =114
+        ZIndex: =2
+
+    lblHistory As label:
+        Color: =RGBA(14, 78, 163, 1)
+        FontWeight: =FontWeight.Bold
+        Height: =44
+        Size: =16
+        Text: ="Scan History — " & varHistoryStudent.cree6_idname
+        Width: =595
+        X: =23
+        Y: =113
+        ZIndex: =3
+
+    dtbScanHistory As dataTable.datatable:
+        BorderStyle: =BorderStyle.Solid
+        BorderThickness: =0
+        ContentLanguage: =""
+        DisplayMode: =DisplayMode.Edit
+        Fill: =RGBA(0, 0, 0, 0)
+        HeadingFontWeight: =FontWeight.Semibold
+        HeadingSize: =14
+        Height: =819
+        InvertedColor: =App.Theme.Colors.PrimaryForeground
+        Items: |
+            =colScanHistory
+        LinkColor: =App.Theme.Colors.Lighter10
+        maximumHeight: =11360
+        maximumWidth: =640
+        minimumHeight: =20
+        minimumWidth: =20
+        NoDataText: ="We didn't find any data to show at this time"
+        PrimaryColor1: =App.Theme.Colors.Primary
+        PrimaryColor2: =App.Theme.Colors.Darker30
+        PrimaryColor3: =App.Theme.Colors.Lighter70
+        SelectedFill: =RGBA(245, 248, 255, 1)
+        UsePhoneLayout: =1
+        Visible: =!IsBlank(cmbStudentSearch.Selected.IDName)
+        Width: =594
+        X: =22
+        Y: =165
+        ZIndex: =4
+
+        colCreatedBy As dataTableColumn.complexTypeColumn:
+            AutoWidth: =false
+            ContentLanguage: =""
+            DisplayMode: =DisplayMode.Edit
+            FieldDisplayName: ="Scanned By"
+            FieldName: ="createdby"
+            Height: =Parent.Height
+            IsHyperlink: =false
+            LayoutHeight: =Parent.Height
+            LayoutWidth: =0
+            LayoutX: =0
+            LayoutY: =0
+            OnSelect: =false
+            Order: =9
+            Text: |
+                =Left(ThisItem.'Created By'.'Full Name',20) & "…"
+            Type: ="s"
+            Visible: =true
+            Width: =146
+            X: =0
+            Y: =0
+            ZIndex: =1
+
+        colPickUpPerson As dataTableColumn.textualColumn:
+            AutoWidth: =true
+            ContentLanguage: =""
+            DisplayMode: =DisplayMode.Edit
+            FieldDisplayName: ="Pick Up Guardian"
+            FieldName: ="cree6_pickupperson"
+            Height: =Parent.Height
+            IsHyperlink: =false
+            LayoutHeight: =Parent.Height
+            LayoutWidth: =0
+            LayoutX: =0
+            LayoutY: =0
+            OnSelect: =false
+            Order: =8
+            Text: =Left(ThisItem.PickUpPerson,20) & "…"
+            Type: ="s"
+            Visible: =true
+            Width: =175
+            X: =0
+            Y: =0
+            ZIndex: =2
+
+        colScanType As dataTableColumn.textualColumn:
+            AutoWidth: =false
+            ContentLanguage: =""
+            DisplayMode: =DisplayMode.Edit
+            FieldDisplayName: ="ScanType"
+            FieldName: ="cree6_scantype"
+            Height: =Parent.Height
+            IsHyperlink: =false
+            LayoutHeight: =Parent.Height
+            LayoutWidth: =0
+            LayoutX: =0
+            LayoutY: =0
+            OnSelect: =false
+            Order: =7
+            Text: =ThisItem.ScanType
+            Type: ="s"
+            Visible: =true
+            Width: =113
+            X: =0
+            Y: =0
+            ZIndex: =3
+
+        colCreatedOn As dataTableColumn.dateTimeColumn:
+            AutoWidth: =false
+            ContentLanguage: =""
+            DisplayMode: =DisplayMode.Edit
+            FieldDisplayName: ="Created On"
+            FieldName: ="createdon"
+            Height: =Parent.Height
+            IsHyperlink: =false
+            LayoutHeight: =Parent.Height
+            LayoutWidth: =0
+            LayoutX: =0
+            LayoutY: =0
+            OnSelect: =false
+            Order: =2
+            Text: |
+                =Text(ThisItem.'Created On', DateTimeFormat.ShortDateTime)
+            Type: ="s"
+            Visible: =true
+            Width: =178
+            X: =0
+            Y: =0
+            ZIndex: =4
+
+    btnRefreshHistory As button:
+        Height: =46
+        OnSelect: |
+            =ClearCollect(
+                colScanHistory,
+                Sort(
+                    Filter(
+                        Student_Scans,
+                        Student_QR = varHistoryStudent.cree6_idname
+                    ),
+                    'Created On',
+                    SortOrder.Descending
+                )
+            );
+            Set(varLastRefreshed, Now());
+            Notify("Scan history refreshed", NotificationType.Success)
+        RadiusBottomLeft: =8
+        RadiusBottomRight: =8
+        RadiusTopLeft: =8
+        RadiusTopRight: =8
+        Size: =16
+        Text: ="Refresh Report"
+        Width: =208
+        X: =216
+        Y: =1036
+        ZIndex: =5
+
+    lblLastRefreshed As label:
+        Align: =Align.Center
+        Color: =RGBA(120,120,120,1)
+        Height: =31
+        Italic: =true
+        Overflow: =Overflow.Scroll
+        Text: |
+            ="Last refreshed at: " & Text(varLastRefreshed, "mm/dd/yyyy hh:mm AM/PM")
+        Tooltip: =
+        Width: =593
+        X: =24
+        Y: =994
+        ZIndex: =6
+

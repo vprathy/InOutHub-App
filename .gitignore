@@ -1,0 +1,45 @@
+# ========================
+# General
+# ========================
+*.log
+*.tmp
+*.swp
+.DS_Store
+Thumbs.db
+
+# Node.js / React
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+dist/
+build/
+.cache/
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# VS Code
+.vscode/
+.history/
+
+# Power Platform CLI exports
+# Ignore all exported solution zips, only track unpacked XML/JSON
+Solutions/Exports/
+*.zip
+*.solution.zip
+
+# PCF Controls
+out/
+*.cdsproj.user
+*.user
+*.suo
+
+# Windows
+desktop.ini
+
+# OneDrive sync junk
+~$*
+*.lnk

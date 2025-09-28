@@ -1,0 +1,82 @@
+Home_Screen As screen:
+    OnVisible: =
+
+    Header_Label As label:
+        Align: =Align.Center
+        FontWeight: =FontWeight.Bold
+        Height: =70
+        Size: =30
+        Text: ="Student Check In App"
+        Width: =560
+        X: =45
+        Y: =49
+        ZIndex: =1
+
+    Check_In_Button As button:
+        Height: =70
+        OnSelect: =Navigate(Check_In_Screen)   
+        Size: =24
+        Text: ="Check In"
+        Width: =358
+        X: =146
+        Y: =366
+        ZIndex: =2
+
+    Check_Out_Button As button:
+        Height: =70
+        OnSelect: =Navigate(Check_Out_Screen)
+        Size: =24
+        Text: ="Check Out"
+        Width: =358
+        X: =146
+        Y: =487
+        ZIndex: =3
+
+    Close_App_Button As button:
+        Height: =70
+        OnSelect: =Exit()
+        Size: =24
+        Text: ="Close App"
+        Width: =358
+        X: =146
+        Y: =852
+        ZIndex: =4
+
+    User_Label As label:
+        FontWeight: =FontWeight.Bold
+        Height: =70
+        Size: =24
+        Text: =Concatenate("Hi ",Proper(User().FullName))
+        Width: =560
+        X: =45
+        Y: =214
+        ZIndex: =5
+
+    Status_Report_Button As button:
+        Height: =70
+        OnSelect: |-
+            =Set(ReportTime, Text(Now(), "hh:mm am/pm"));
+            Navigate(Summary_by_Class_Report)
+        Size: =24
+        Text: ="Reports"
+        Width: =358
+        X: =146
+        Y: =608
+        ZIndex: =6
+
+    Search_Button As button:
+        Height: =70
+        OnSelect: |
+            =Navigate(
+                scrStudentProfile,
+                ScreenTransition.Fade,
+                { resetProfile: true }
+            );
+            Set(varFromScreen, "Home");
+        Size: =24
+        Text: ="Search / ID Lookup"
+        Width: =358
+        X: =146
+        Y: =729
+        ZIndex: =7
+

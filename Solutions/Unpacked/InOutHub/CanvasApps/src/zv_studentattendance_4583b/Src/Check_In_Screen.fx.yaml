@@ -1,0 +1,273 @@
+Check_In_Screen As screen:
+    Fill: =RGBA(255, 255, 255, 1)
+
+    "Check_In_BarcodeReader As 'Barcode Reader'":
+        BorderFillColor: =RGBA(47, 81, 151, 1)
+        DisabledBorderColor: =RGBA(166, 166, 166, 1)
+        DisabledContentColor: =RGBA(166, 166, 166, 1)
+        DisabledFillColor: =RGBA(244, 244, 244, 1)
+        DisplayMode: =DisplayMode.Edit
+        FillColor: =RGBA(56, 96, 178, 1)
+        FontSize: =24
+        Height: =70
+        HoverBorderColor: =RGBA(88, 115, 171, 1)
+        HoverContentColor: =RGBA(255, 255, 255, 1)
+        HoverFillColor: =RGBA(47, 81, 151, 1)
+        OnCancel: =false
+        OnScan: |-
+            =Collect(
+                Check_In_ScanData,
+                Check_In_BarcodeReader.Barcodes
+            );
+            //ForAll(Sequence(CountRows(Check_In_ScanData)), Patch(Last(FirstN(Check_In_ScanData,Value)), {RowNumber:Value}))
+            Set(
+                Check_In_Button_Display,
+                0
+            );
+            If(
+                IsError(
+                    ForAll(
+                        Check_In_Gallery.AllItems,
+                        //Patch(
+                        //    ScanReports,
+                        //    LookUp(
+                        //        ScanReports,
+                        //        ScanReportDate = SessionDate && DayScanID = Value
+                        //    ),
+                        //    {CheckInTag: true}
+                        //);
+                        Patch(
+                            Student_Scans,
+                            Defaults(Student_Scans),
+                            {
+                                Student_QR: ThisRecord.Value,
+                                ScanType: "Check In",
+                                SS_Class: LookUp(
+                                    Student_Infos_Cache,
+                                    IDName = Value,
+                                    Class
+                                )
+                            }
+                        )
+                    )
+                ),
+                Notify(
+                    "Submit Failed, Check Connection and Try Again",
+                    NotificationType.Error
+                );
+                Set(
+                    Check_In_Button_Display,
+                    1
+                );
+                ,
+                Notify(
+                    CountRows(Check_In_Gallery.AllItems) & " Student IDs Updated Successfully",
+                    NotificationType.Success
+                );
+                Clear(Check_In_ScanData)
+            )
+        PressedBorderColor: =RGBA(56, 96, 178, 1)
+        PressedContentColor: =RGBA(56, 96, 178, 1)
+        PressedFillColor: =RGBA(255, 255, 255, 1)
+        ScanningMode: ='BarcodeReader.ScanningMode'.ScanMultiple
+        Text: ="Scan Student ID"
+        TextColor: =RGBA(255, 255, 255, 1)
+        Width: =460
+        X: =90
+        Y: =156
+        ZIndex: =1
+
+    "Check_In_Gallery As gallery.'BrowseLayout_Vertical_OneTextVariant_ver5.0'":
+        BorderColor: =RGBA(39, 113, 194, 1)
+        BorderThickness: =2
+        DelayItemLoading: =true
+        DisplayMode: =DisplayMode.View
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =614
+        Items: |-
+            =With(
+                {
+                    Table: Check_In_ScanData
+                }, 
+                ForAll(
+                    Sequence(
+                        CountRows(Table)
+                    ) As Seq,
+                    Patch(
+                        Last(
+                            FirstN(
+                                Table,
+                                Seq.Value
+                            )
+                        ),
+                        {
+                            RowNumber: Seq.Value
+                        }
+                    )
+                )
+            )
+        Layout: =Layout.Vertical
+        LoadingSpinner: =LoadingSpinner.Data
+        TemplatePadding: =0
+        TemplateSize: =56
+        Y: =324
+        ZIndex: =1
+
+        Check_In_Value As label:
+            AutoHeight: =true
+            DisplayMode: =DisplayMode.View
+            FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+            Height: =32
+            LineHeight: =1
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =18
+            Text: =ThisItem.Value
+            VerticalAlign: =VerticalAlign.Top
+            Width: =534
+            X: =82
+            Y: =17
+            ZIndex: =1
+
+        Separator1 As rectangle:
+            BorderColor: =RGBA(255, 255, 255, 1)
+            Fill: =RGBA(39, 113, 194, 1)
+            Height: =2
+            OnSelect: =Select(Parent)
+            Width: =Parent.TemplateWidth
+            ZIndex: =3
+
+        Rectangle1 As rectangle:
+            Height: =Parent.TemplateHeight - Separator1.Height
+            OnSelect: =Select(Parent)
+            Visible: =ThisItem.IsSelected
+            Width: =4
+            ZIndex: =4
+
+        Check_In_RowNumber As label:
+            Align: =Align.Center
+            DisplayMode: =DisplayMode.View
+            Height: =33
+            Size: =18
+            Text: =ThisItem.RowNumber
+            Width: =61
+            X: =21
+            Y: =12
+            ZIndex: =5
+
+    Submit_Button As button:
+        DisplayMode: |-
+            =If(
+                Check_In_Button_Display = 1,
+                DisplayMode.Edit,
+                DisplayMode.Disabled
+            )
+        Height: =58
+        OnSelect: |-
+            =If(
+                IsError(
+                    ForAll(
+                        Check_In_Gallery.AllItems,
+                       // Patch(
+                       //    ScanReports,
+                       //     LookUp(
+                       //         ScanReports,
+                       //         ScanReportDate = SessionDate && DayScanID = Value
+                       //     ),
+                       //     {CheckInTag: true}
+                       // );
+                        Patch(
+                            Student_Scans,
+                            Defaults(Student_Scans),
+                            {
+                                Student_QR: ThisRecord.Value,
+                                ScanType: "Check In",
+                                SS_Class: LookUp(
+                                    Student_Infos_Cache,
+                                    IDName = Value,
+                                    Class
+                                )
+                            }
+                        );
+                    )
+                ),
+                Notify(
+                    "Update Failed, Check Connection and Try Again",
+                    NotificationType.Error
+                ),
+                Notify(
+                    CountRows(Check_In_Gallery.AllItems) & " Student IDs Updated Successfully",
+                    NotificationType.Success
+                );
+                Clear(Check_In_ScanData);
+                Set(
+                    Check_In_Button_Display,
+                    0
+                )
+            )
+        Size: =24
+        Text: ="Submit"
+        Width: =262
+        X: =184
+        Y: =986
+        ZIndex: =3
+
+    Check_In_Screen_Header As label:
+        Align: =Align.Center
+        FontWeight: =FontWeight.Semibold
+        Height: =46
+        Size: =30
+        Text: ="Student Check In"
+        Width: =368
+        X: =132
+        Y: =49
+        ZIndex: =4
+
+    Back_Icon As icon.BackArrow:
+        Height: =46
+        Icon: =Icon.BackArrow
+        OnSelect: =Navigate(Home_Screen)
+        Width: =46
+        X: =49
+        Y: =49
+        ZIndex: =5
+
+    Camera_Icon As icon.Camera:
+        Color: =RGBA(255, 255, 255, 1)
+        DisplayMode: =DisplayMode.View
+        Fill: =RGBA(56, 96, 178, 1)
+        Height: =47
+        Icon: =Icon.Camera
+        Width: =74
+        X: =111
+        Y: =169
+        ZIndex: =6
+
+    Label1 As label:
+        BorderColor: =RGBA(39, 113, 194, 1)
+        DisplayMode: =DisplayMode.View
+        FontWeight: =FontWeight.Semibold
+        Height: =33
+        Size: =18
+        Text: ="Student ID & Name"
+        Width: =555
+        X: =85
+        Y: =288
+        ZIndex: =7
+
+    Label1_3 As label:
+        Align: =Align.Center
+        DisplayMode: =DisplayMode.View
+        FontWeight: =FontWeight.Semibold
+        Height: =33
+        Size: =18
+        Text: |-
+            ="#"
+        Width: =61
+        X: =24
+        Y: =288
+        ZIndex: =8
+

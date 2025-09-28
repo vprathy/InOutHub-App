@@ -1,0 +1,291 @@
+# ************************************************************************************************
+# Warning: YAML source code for Canvas Apps should only be used to review changes made within Power Apps Studio and for minor edits (Preview).
+# Use the maker portal to create and edit your Power Apps.
+# 
+# The schema file for Canvas Apps is available at https://go.microsoft.com/fwlink/?linkid=2304907
+# 
+# For more information, visit https://go.microsoft.com/fwlink/?linkid=2292623
+# ************************************************************************************************
+Screens:
+  Check_In_Screen:
+    Properties:
+      Fill: =RGBA(255, 255, 255, 1)
+      LoadingSpinnerColor: =RGBA(56, 96, 178, 1)
+    Children:
+      - Check_In_BarcodeReader:
+          Control: BarcodeReader@1.0.25
+          Properties:
+            FontSize: =24
+            OnScan: |-
+              =Collect(
+                  Check_In_ScanData,
+                  Check_In_BarcodeReader.Barcodes
+              );
+              //ForAll(Sequence(CountRows(Check_In_ScanData)), Patch(Last(FirstN(Check_In_ScanData,Value)), {RowNumber:Value}))
+              Set(
+                  Check_In_Button_Display,
+                  0
+              );
+              If(
+                  IsError(
+                      ForAll(
+                          Check_In_Gallery.AllItems,
+                          //Patch(
+                          //    ScanReports,
+                          //    LookUp(
+                          //        ScanReports,
+                          //        ScanReportDate = SessionDate && DayScanID = Value
+                          //    ),
+                          //    {CheckInTag: true}
+                          //);
+                          Patch(
+                              Student_Scans,
+                              Defaults(Student_Scans),
+                              {
+                                  Student_QR: ThisRecord.Value,
+                                  ScanType: "Check In",
+                                  SS_Class: LookUp(
+                                      Student_Infos_Cache,
+                                      IDName = Value,
+                                      Class
+                                  )
+                              }
+                          )
+                      )
+                  ),
+                  Notify(
+                      "Submit Failed, Check Connection and Try Again",
+                      NotificationType.Error
+                  );
+                  Set(
+                      Check_In_Button_Display,
+                      1
+                  );
+                  ,
+                  Notify(
+                      CountRows(Check_In_Gallery.AllItems) & " Student IDs Updated Successfully",
+                      NotificationType.Success
+                  );
+                  Clear(Check_In_ScanData)
+              )
+            ScanningMode: ='BarcodeReader.ScanningMode'.ScanMultiple
+            Text: ="Scan Student ID"
+            Width: =460
+            X: =90
+            Y: =156
+      - Check_In_Gallery:
+          Control: Gallery@2.15.0
+          Variant: BrowseLayout_Vertical_OneTextVariant_ver5.0
+          Properties:
+            BorderColor: =RGBA(39, 113, 194, 1)
+            BorderThickness: =2
+            DisplayMode: =DisplayMode.View
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =614
+            Items: |-
+              =With(
+                  {
+                      Table: Check_In_ScanData
+                  }, 
+                  ForAll(
+                      Sequence(
+                          CountRows(Table)
+                      ) As Seq,
+                      Patch(
+                          Last(
+                              FirstN(
+                                  Table,
+                                  Seq.Value
+                              )
+                          ),
+                          {
+                              RowNumber: Seq.Value
+                          }
+                      )
+                  )
+              )
+            TemplateSize: =56
+            Y: =324
+          Children:
+            - Check_In_Value:
+                Control: Label@2.5.1
+                Properties:
+                  AutoHeight: =true
+                  BorderColor: =RGBA(0, 0, 0, 1)
+                  Color: =RGBA(50, 49, 48, 1)
+                  DisplayMode: =DisplayMode.View
+                  Font: =Font.'Open Sans'
+                  FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+                  Height: =32
+                  LineHeight: =1
+                  OnSelect: =Select(Parent)
+                  PaddingBottom: =0
+                  PaddingLeft: =0
+                  PaddingRight: =0
+                  PaddingTop: =0
+                  Size: =18
+                  Text: =ThisItem.Value
+                  VerticalAlign: =VerticalAlign.Top
+                  Width: =534
+                  X: =82
+                  Y: =17
+            - Separator1:
+                Control: Rectangle@2.3.0
+                Properties:
+                  BorderColor: =RGBA(255, 255, 255, 1)
+                  Fill: =RGBA(39, 113, 194, 1)
+                  Height: =2
+                  OnSelect: =Select(Parent)
+                  Width: =Parent.TemplateWidth
+            - Rectangle1:
+                Control: Rectangle@2.3.0
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Fill: =RGBA(0, 18, 107, 1)
+                  Height: =Parent.TemplateHeight - Separator1.Height
+                  OnSelect: =Select(Parent)
+                  Visible: =ThisItem.IsSelected
+                  Width: =4
+            - Check_In_RowNumber:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =Align.Center
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  DisplayMode: =DisplayMode.View
+                  Font: =Font.'Open Sans'
+                  Height: =33
+                  Size: =18
+                  Text: =ThisItem.RowNumber
+                  Width: =61
+                  X: =21
+                  Y: =12
+      - Submit_Button:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =ColorFade(Self.Fill, -15%)
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+            DisplayMode: |-
+              =If(
+                  Check_In_Button_Display = 1,
+                  DisplayMode.Edit,
+                  DisplayMode.Disabled
+              )
+            Fill: =RGBA(56, 96, 178, 1)
+            Font: =Font.'Open Sans'
+            Height: =58
+            HoverBorderColor: =ColorFade(Self.BorderColor, 20%)
+            HoverColor: =RGBA(255, 255, 255, 1)
+            HoverFill: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+            OnSelect: |-
+              =If(
+                  IsError(
+                      ForAll(
+                          Check_In_Gallery.AllItems,
+                         // Patch(
+                         //    ScanReports,
+                         //     LookUp(
+                         //         ScanReports,
+                         //         ScanReportDate = SessionDate && DayScanID = Value
+                         //     ),
+                         //     {CheckInTag: true}
+                         // );
+                          Patch(
+                              Student_Scans,
+                              Defaults(Student_Scans),
+                              {
+                                  Student_QR: ThisRecord.Value,
+                                  ScanType: "Check In",
+                                  SS_Class: LookUp(
+                                      Student_Infos_Cache,
+                                      IDName = Value,
+                                      Class
+                                  )
+                              }
+                          );
+                      )
+                  ),
+                  Notify(
+                      "Update Failed, Check Connection and Try Again",
+                      NotificationType.Error
+                  ),
+                  Notify(
+                      CountRows(Check_In_Gallery.AllItems) & " Student IDs Updated Successfully",
+                      NotificationType.Success
+                  );
+                  Clear(Check_In_ScanData);
+                  Set(
+                      Check_In_Button_Display,
+                      0
+                  )
+              )
+            PressedBorderColor: =Self.Fill
+            PressedColor: =Self.Fill
+            PressedFill: =Self.Color
+            Text: ="Submit"
+            Width: =262
+            X: =184
+            Y: =986
+      - Check_In_Screen_Header:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =46
+            Size: =30
+            Text: ="Student Check In"
+            Width: =368
+            X: =132
+            Y: =49
+      - Back_Icon:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Color: =RGBA(0, 18, 107, 1)
+            Height: =46
+            Icon: =Icon.BackArrow
+            OnSelect: =Navigate(Home_Screen)
+            Width: =46
+            X: =49
+            Y: =49
+      - Camera_Icon:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Color: =RGBA(255, 255, 255, 1)
+            DisplayMode: =DisplayMode.View
+            Fill: =RGBA(56, 96, 178, 1)
+            Height: =47
+            Icon: =Icon.Camera
+            Width: =74
+            X: =111
+            Y: =169
+      - Label1:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(39, 113, 194, 1)
+            DisplayMode: =DisplayMode.View
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =33
+            Size: =18
+            Text: ="Student ID & Name"
+            Width: =555
+            X: =85
+            Y: =288
+      - Label1_3:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 18, 107, 1)
+            DisplayMode: =DisplayMode.View
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =33
+            Size: =18
+            Text: ="#"
+            Width: =61
+            X: =24
+            Y: =288

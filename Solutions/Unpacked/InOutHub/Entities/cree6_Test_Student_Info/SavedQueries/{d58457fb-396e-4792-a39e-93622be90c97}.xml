@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<savedqueries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <savedquery>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>0</CanBeDeleted>
+    <isquickfindquery>0</isquickfindquery>
+    <isprivate>0</isprivate>
+    <isdefault>1</isdefault>
+    <savedqueryid>{d58457fb-396e-4792-a39e-93622be90c97}</savedqueryid>
+    <layoutxml>
+      <grid name="resultset" jump="cree6_studentid" select="1" icon="1" preview="1">
+        <row name="result" id="cree6_test_student_infoid">
+          <cell name="cree6_studentid" width="300" />
+          <cell name="createdon" width="125" />
+        </row>
+      </grid>
+    </layoutxml>
+    <querytype>0</querytype>
+    <fetchxml>
+      <fetch version="1.0" mapping="logical">
+        <entity name="cree6_test_student_info">
+          <attribute name="cree6_test_student_infoid" />
+          <attribute name="cree6_studentid" />
+          <attribute name="createdon" />
+          <order attribute="cree6_studentid" descending="false" />
+          <filter type="and">
+            <condition attribute="statecode" operator="eq" value="0" />
+          </filter>
+        </entity>
+      </fetch>
+    </fetchxml>
+    <IntroducedVersion>1.0.0.0</IntroducedVersion>
+    <LocalizedNames>
+      <LocalizedName description="Active Test_Student_Infos" languagecode="1033" />
+    </LocalizedNames>
+  </savedquery>
+</savedqueries>

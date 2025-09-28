@@ -1,0 +1,98 @@
+[
+  {
+    "CdsFCBContext": "{\"FileType\":true,\"ImageExternalStorage\":true}",
+    "EntitySetName": "cree6_check_out_scanses",
+    "IsHidden": false,
+    "IsSampleData": false,
+    "IsWritable": true,
+    "LogicalName": "cree6_check_out_scans",
+    "MaxGetRowsCount": 500,
+    "Name": "Student_Scans",
+    "NativeCDSDataSourceInfoNameMapping": {
+      "_ownerid_value": "Owner",
+      "createdby": "Created By",
+      "createdon": "Created On",
+      "createdonbehalfby": "Created By (Delegate)",
+      "cree6_check_out_scans_AsyncOperations": "System Jobs",
+      "cree6_check_out_scans_BulkDeleteFailures": "Bulk Delete Failures",
+      "cree6_check_out_scans_MailboxTrackingFolders": "Mailbox Auto Tracking Folders",
+      "cree6_check_out_scans_PrincipalObjectAttributeAccesses": "Field Sharing",
+      "cree6_check_out_scans_ProcessSession": "Process Sessions",
+      "cree6_check_out_scans_SyncErrors": "Sync Errors",
+      "cree6_check_out_scansid": "Check_Out_Scans",
+      "cree6_pickupperson": "PickUpPerson",
+      "cree6_scantype": "ScanType",
+      "cree6_ss_class": "SS_Class",
+      "cree6_student_qr": "Student_QR",
+      "importsequencenumber": "Import Sequence Number",
+      "modifiedby": "Modified By",
+      "modifiedon": "Modified On",
+      "modifiedonbehalfby": "Modified By (Delegate)",
+      "overriddencreatedon": "Record Created On",
+      "owningbusinessunit": "Owning Business Unit",
+      "owningteam": "Owning Team",
+      "owninguser": "Owning User",
+      "statecode": "Status",
+      "statuscode": "Status Reason",
+      "timezoneruleversionnumber": "Time Zone Rule Version Number",
+      "utcconversiontimezonecode": "UTC Conversion Time Zone Code",
+      "versionnumber": "Version Number"
+    },
+    "PreferredName": "Student_Scans",
+    "Type": "NativeCDSDataSourceInfo"
+  },
+  {
+    "DisplayName": "Student_Scans (Views)",
+    "Name": "_cree6_check_out_scans_views",
+    "RelatedEntityName": "Student_Scans",
+    "TrimmedViewName": true,
+    "Type": "ViewInfo",
+    "ViewInfoNameMapping": {
+      "7674948e-365f-4f7c-b9dd-b97fe103ee28": "Active Check_Out_Scans",
+      "80b31545-ba9f-4294-98a3-12f762d6324b": "Check_Out_Scans Associated View",
+      "87496a0b-8914-4cee-9f05-7af90ef1a480": "Check_Out_Scans Advanced Find View",
+      "c91b89f0-370f-45b3-b4f0-884434816c9d": "Inactive Check_Out_Scans",
+      "d42c8379-5152-4bc9-b419-35b2454bffe2": "Check_Out_Scans Lookup View"
+    }
+  },
+  {
+    "DisplayName": "Status (Student_Scans)",
+    "Name": "cree6_check_out_scans_statecode",
+    "OptionSetInfoNameMapping": {
+      "0": "Active",
+      "1": "Inactive"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "statecode",
+        "OptionSetReferenceEntityName": "Student_Scans"
+      }
+    },
+    "OptionSetTypeKey": "StateType",
+    "RelatedColumnInvariantName": "statecode",
+    "RelatedEntityName": "Student_Scans",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Status Reason (Student_Scans)",
+    "Name": "cree6_check_out_scans_statuscode",
+    "OptionSetInfoNameMapping": {
+      "1": "Active",
+      "2": "Inactive"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "statuscode",
+        "OptionSetReferenceEntityName": "Student_Scans"
+      }
+    },
+    "OptionSetTypeKey": "StatusType",
+    "RelatedColumnInvariantName": "statuscode",
+    "RelatedEntityName": "Student_Scans",
+    "Type": "OptionSetInfo"
+  }
+]

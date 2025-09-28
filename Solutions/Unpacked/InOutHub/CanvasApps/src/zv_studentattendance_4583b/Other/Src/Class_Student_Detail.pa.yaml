@@ -1,0 +1,435 @@
+# ************************************************************************************************
+# Warning: YAML source code for Canvas Apps should only be used to review changes made within Power Apps Studio and for minor edits (Preview).
+# Use the maker portal to create and edit your Power Apps.
+# 
+# The schema file for Canvas Apps is available at https://go.microsoft.com/fwlink/?linkid=2304907
+# 
+# For more information, visit https://go.microsoft.com/fwlink/?linkid=2292623
+# ************************************************************************************************
+Screens:
+  Class_Student_Detail:
+    Properties:
+      LoadingSpinnerColor: =RGBA(56, 96, 178, 1)
+      OnVisible: |+
+        =// Class_Student_Detail.OnVisible
+        Refresh(ScanReports);
+
+        // Update the "Summary Data as of" time
+        Set(ReportTime, Text(Now(), "[$-en-US]hh:mm AM/PM"));
+
+        // Force the gallery to pick up refreshed data
+        Reset(Gallery1);
+    Children:
+      - Back_Icon_1:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Color: =RGBA(0, 18, 107, 1)
+            Height: =46
+            Icon: =Icon.BackArrow
+            OnSelect: |-
+              =//Set(ReportClass, Blank());
+              //Set(ReportDate, Blank());
+              Navigate(Summary_by_Class_Report);
+            Width: =46
+            X: =49
+            Y: =49
+      - Gallery1:
+          Control: Gallery@2.15.0
+          Variant: Vertical
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Height: =618
+            Items: |-
+              =Sort(
+                  Filter(
+                      ScanReports,
+                      ScanReportDate = Value(
+                          Text(
+                              DatePicker1.SelectedDate,
+                              "yyyymmdd"
+                          )
+                      ) && DayScanClass = Dropdown1.Selected.Value
+                  ),
+                  DayScanID
+              )
+            TemplateSize: =46
+            Y: =465
+          Children:
+            - Label3:
+                Control: Label@2.5.1
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  DisplayMode: =DisplayMode.View
+                  Font: =Font.'Open Sans'
+                  Height: =25
+                  OnSelect: =Select(Parent)
+                  Size: =16
+                  Text: =ThisItem.DayScanID
+                  Width: =360
+                  X: =4
+                  Y: =8
+            - NextArrow1_4:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  AccessibleLabel: =Self.Tooltip
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Color: =RGBA(166, 166, 166, 1)
+                  Fill: =RGBA(255, 255, 255, 1)
+                  Height: =40
+                  Icon: =Icon.ChevronRight
+                  OnSelect: |+
+                    =// 1) Resolve Exceptions row -> Student_Infos record (from cache)
+                    Set(
+                        varSelectedStudent,
+                        LookUp(Student_Infos_Cache, IDName = ThisItem.DayScanID)
+                    );
+
+                    // 2) If missing in cache, try the table once (optional fallback)
+                    If(
+                        IsBlank(varSelectedStudent),
+                        Set(varSelectedStudent, LookUp(Student_Infos, IDName = ThisItem.DayScanID))
+                    );
+
+                    // 3) Navigate; do NOT reset the profile
+                    Navigate(
+                        scrStudentProfile,
+                        ScreenTransition.Fade,
+                        { resetProfile: false, ctxId: ThisItem.DayScanID }
+                    );
+
+                    // Track where we came from (optional)
+                    Set(varFromScreen, "ClassDetail");
+                  PaddingBottom: =12
+                  PaddingLeft: =12
+                  PaddingRight: =12
+                  PaddingTop: =12
+                  Tooltip: ="View item details"
+                  Width: =50
+                  X: =571
+                  Y: =2
+            - Label4:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =Align.Center
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Font: =Font.'Open Sans'
+                  Height: =25
+                  OnSelect: =Select(Parent)
+                  Size: =16
+                  Text: =ThisItem.CheckInTag
+                  Width: =120
+                  X: =372
+                  Y: =8
+            - Label4_1:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =Align.Center
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Font: =Font.'Open Sans'
+                  Height: =25
+                  OnSelect: =Select(Parent)
+                  Size: =16
+                  Text: =ThisItem.CheckOutTag
+                  Width: =54
+                  X: =516
+                  Y: =8
+            - Rectangle4:
+                Control: Rectangle@2.3.0
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Fill: =RGBA(56, 96, 178, 1)
+                  Height: =4
+                  OnSelect: =Select(Parent)
+                  Width: =626
+                  X: =4
+                  Y: =41
+      - Check_In_Screen_Header_1:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =46
+            Size: =30
+            Text: ="Class Report"
+            Width: =368
+            X: =132
+            Y: =49
+      - DatePicker1:
+          Control: Classic/DatePicker@2.6.0
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            DefaultDate: =ReportDate
+            Font: =Font.'Open Sans'
+            Height: =40
+            IconBackground: =RGBA(56, 96, 178, 1)
+            IconFill: =RGBA(255, 255, 255, 1)
+            Size: =16
+            Width: =194
+            X: =179
+            Y: =124
+      - Dropdown1:
+          Control: Classic/DropDown@2.3.1
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            ChevronBackground: =RGBA(56, 96, 178, 1)
+            ChevronFill: =RGBA(255, 255, 255, 1)
+            ChevronHoverBackground: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+            ChevronHoverFill: =RGBA(255, 255, 255, 1)
+            Default: =ReportClass
+            Font: =Font.'Open Sans'
+            Height: =40
+            HoverFill: =RGBA(186, 202, 226, 1)
+            Items: =Distinct(Student_Infos, Class)
+            Items.Value: =Value
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =RGBA(0, 18, 107, 1)
+            SelectionColor: =RGBA(255, 255, 255, 1)
+            SelectionFill: =RGBA(56, 96, 178, 1)
+            Size: =16
+            Width: =157
+            X: =448
+            Y: =124
+      - Label2:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =40
+            Size: =16
+            Text: ="Select Date"
+            Width: =133
+            X: =46
+            Y: =124
+      - Label2_1:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =40
+            Size: =16
+            Text: ="Class"
+            Width: =67
+            X: =381
+            Y: =124
+      - Label2_4:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =46
+            Size: =16
+            Text: ="Student ID Name"
+            Width: =393
+            X: =7
+            Y: =412
+      - Label2_5:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =46
+            Size: =16
+            Text: ="Check In"
+            Width: =119
+            X: =382
+            Y: =412
+      - Label2_6:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =46
+            Size: =16
+            Text: ="Check Out"
+            Width: =120
+            X: =493
+            Y: =412
+      - Rectangle4_1:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Fill: =RGBA(56, 96, 178, 1)
+            Height: =4
+            Width: =626
+            X: =7
+            Y: =461
+      - Label5:
+          Control: Label@2.5.1
+          Group: Group2
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(255, 255, 255, 1)
+            BorderThickness: =2
+            DisplayMode: =DisplayMode.View
+            Fill: =RGBA(237, 237, 237, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =35
+            Size: =16
+            Text: |-
+              =//CountRows(Gallery1.AllItems)
+              CountRows(Filter(Student_Infos_Cache, Class = Dropdown1.Selected.Value))
+            Width: =109
+            X: =499
+            Y: =251
+      - Label5_1:
+          Control: Label@2.5.1
+          Group: Group2
+          Properties:
+            BorderColor: =RGBA(255, 255, 255, 1)
+            BorderThickness: =2
+            DisplayMode: =DisplayMode.View
+            Fill: =RGBA(237, 237, 237, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =35
+            Size: =16
+            Text: ="# Class Size"
+            Width: =462
+            X: =30
+            Y: =251
+      - Label5_2:
+          Control: Label@2.5.1
+          Group: Group2
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(255, 255, 255, 1)
+            BorderThickness: =2
+            DisplayMode: =DisplayMode.View
+            Fill: =RGBA(237, 237, 237, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =35
+            Size: =16
+            Text: |-
+              =CountRows(
+                  Filter(
+                      ScanReports,
+                      ScanReportDate = Value(
+                          Text(
+                              DatePicker1.SelectedDate,
+                              "yyyymmdd"
+                          )
+                      ) && DayScanClass = Dropdown1.Selected.Value && CheckInTag = true
+                  )
+              )
+            Width: =109
+            X: =500
+            Y: =294
+      - Label5_3:
+          Control: Label@2.5.1
+          Group: Group2
+          Properties:
+            BorderColor: =RGBA(255, 255, 255, 1)
+            BorderThickness: =2
+            DisplayMode: =DisplayMode.View
+            Fill: =RGBA(237, 237, 237, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =35
+            Size: =16
+            Text: ="# Checked In"
+            Width: =462
+            X: =31
+            Y: =294
+      - Label5_4:
+          Control: Label@2.5.1
+          Group: Group2
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(255, 255, 255, 1)
+            BorderThickness: =2
+            DisplayMode: =DisplayMode.View
+            Fill: =RGBA(237, 237, 237, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =35
+            Size: =16
+            Text: |-
+              =CountRows(
+                  Filter(
+                      ScanReports,
+                      ScanReportDate = Value(
+                          Text(
+                              DatePicker1.SelectedDate,
+                              "yyyymmdd"
+                          )
+                      ) && DayScanClass = Dropdown1.Selected.Value && CheckOutTag = true
+                  )
+              )
+            Width: =109
+            X: =500
+            Y: =338
+      - Label5_5:
+          Control: Label@2.5.1
+          Group: Group2
+          Properties:
+            BorderColor: =RGBA(255, 255, 255, 1)
+            BorderThickness: =2
+            DisplayMode: =DisplayMode.View
+            Fill: =RGBA(237, 237, 237, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =35
+            Size: =16
+            Text: ="# Checked Out"
+            Width: =462
+            X: =31
+            Y: =338
+      - Rectangle7_1:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(56, 96, 178, 1)
+            BorderThickness: =2
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =215
+            Width: =613
+            X: =12
+            Y: =196
+      - Label8_4:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Color: =RGBA(255, 0, 0, 1)
+            Font: =Font.'Open Sans'
+            Height: =39
+            Italic: =true
+            Size: =14
+            Text: ="Summary Data as of"
+            Width: =185
+            X: =22
+            Y: =204
+      - Label8_5:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Color: =RGBA(255, 0, 0, 1)
+            Font: =Font.'Open Sans'
+            Height: =39
+            Italic: =true
+            Size: =14
+            Text: =ReportTime
+            Width: =150
+            X: =202
+            Y: =204
+      - Icon4_2:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Color: =RGBA(0, 18, 107, 1)
+            Height: =46
+            Icon: =Icon.Home
+            OnSelect: =Navigate(Home_Screen)
+            Width: =46
+            X: =563
+            Y: =49

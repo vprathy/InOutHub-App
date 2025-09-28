@@ -1,0 +1,140 @@
+[
+  {
+    "CdsFCBContext": "{\"FileType\":true,\"ImageExternalStorage\":true}",
+    "EntitySetName": "cree6_table11s",
+    "IsHidden": false,
+    "IsSampleData": false,
+    "IsWritable": true,
+    "LogicalName": "cree6_table11",
+    "MaxGetRowsCount": 500,
+    "Name": "ScanReports",
+    "NativeCDSDataSourceInfoNameMapping": {
+      "_ownerid_value": "Owner",
+      "createdby": "Created By",
+      "createdon": "Created On",
+      "createdonbehalfby": "Created By (Delegate)",
+      "cree6_checkintag": "CheckInTag",
+      "cree6_checkouttag": "CheckOutTag",
+      "cree6_dayscanclass": "DayScanClass",
+      "cree6_dayscanid": "DayScanID",
+      "cree6_dayscanstatus": "DayScanStatus",
+      "cree6_scanreportdate": "ScanReportDate",
+      "cree6_table11_AsyncOperations": "System Jobs",
+      "cree6_table11_BulkDeleteFailures": "Bulk Delete Failures",
+      "cree6_table11_MailboxTrackingFolders": "Mailbox Auto Tracking Folders",
+      "cree6_table11_PrincipalObjectAttributeAccesses": "Field Sharing",
+      "cree6_table11_ProcessSession": "Process Sessions",
+      "cree6_table11_SyncErrors": "Sync Errors",
+      "cree6_table11id": "Table1",
+      "importsequencenumber": "Import Sequence Number",
+      "modifiedby": "Modified By",
+      "modifiedon": "Modified On",
+      "modifiedonbehalfby": "Modified By (Delegate)",
+      "overriddencreatedon": "Record Created On",
+      "owningbusinessunit": "Owning Business Unit",
+      "owningteam": "Owning Team",
+      "owninguser": "Owning User",
+      "statecode": "Status",
+      "statuscode": "Status Reason",
+      "timezoneruleversionnumber": "Time Zone Rule Version Number",
+      "utcconversiontimezonecode": "UTC Conversion Time Zone Code",
+      "versionnumber": "Version Number"
+    },
+    "PreferredName": "ScanReports",
+    "Type": "NativeCDSDataSourceInfo"
+  },
+  {
+    "DisplayName": "ScanReports (Views)",
+    "Name": "_cree6_table11_views",
+    "RelatedEntityName": "ScanReports",
+    "TrimmedViewName": true,
+    "Type": "ViewInfo",
+    "ViewInfoNameMapping": {
+      "18868b4b-7c22-4574-a231-21e6947564e4": "Inactive ScanReports",
+      "69f67eeb-a445-4e88-92e8-1f3e253b1136": "ScanReport Associated View",
+      "74300ef1-7a94-47b9-a491-e710f3ec7504": "Active ScanReports",
+      "8c43d509-5ae8-4658-b3ab-dad90d019f80": "ScanReport Lookup View",
+      "c6a8f5e6-1af7-47c6-a4b2-e4701de4186b": "ScanReport Advanced Find View"
+    }
+  },
+  {
+    "DisplayName": "CheckInTag (ScanReports)",
+    "Name": "cree6_table11_cree6_checkintag",
+    "OptionSetInfoNameMapping": {
+      "0": "No",
+      "1": "Yes"
+    },
+    "OptionSetIsBooleanValued": true,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cree6_checkintag",
+        "OptionSetReferenceEntityName": "ScanReports"
+      }
+    },
+    "OptionSetTypeKey": "BooleanType",
+    "RelatedColumnInvariantName": "cree6_checkintag",
+    "RelatedEntityName": "ScanReports",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "CheckOutTag (ScanReports)",
+    "Name": "cree6_table11_cree6_checkouttag",
+    "OptionSetInfoNameMapping": {
+      "0": "No",
+      "1": "Yes"
+    },
+    "OptionSetIsBooleanValued": true,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cree6_checkouttag",
+        "OptionSetReferenceEntityName": "ScanReports"
+      }
+    },
+    "OptionSetTypeKey": "BooleanType",
+    "RelatedColumnInvariantName": "cree6_checkouttag",
+    "RelatedEntityName": "ScanReports",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Status (ScanReports)",
+    "Name": "cree6_table11_statecode",
+    "OptionSetInfoNameMapping": {
+      "0": "Active",
+      "1": "Inactive"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "statecode",
+        "OptionSetReferenceEntityName": "ScanReports"
+      }
+    },
+    "OptionSetTypeKey": "StateType",
+    "RelatedColumnInvariantName": "statecode",
+    "RelatedEntityName": "ScanReports",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Status Reason (ScanReports)",
+    "Name": "cree6_table11_statuscode",
+    "OptionSetInfoNameMapping": {
+      "1": "Active",
+      "2": "Inactive"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "statuscode",
+        "OptionSetReferenceEntityName": "ScanReports"
+      }
+    },
+    "OptionSetTypeKey": "StatusType",
+    "RelatedColumnInvariantName": "statuscode",
+    "RelatedEntityName": "ScanReports",
+    "Type": "OptionSetInfo"
+  }
+]

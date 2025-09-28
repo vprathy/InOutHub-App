@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <systemform>
+    <formid>{2b3d9e1f-88ae-ef11-8a69-000d3a315c88}</formid>
+    <IntroducedVersion>1.0.0.0</IntroducedVersion>
+    <FormPresentation>1</FormPresentation>
+    <FormActivationState>1</FormActivationState>
+    <form headerdensity="HighWithControls">
+      <tabs>
+        <tab verticallayout="true" id="{fc809ec3-6e0f-4edb-b8a9-4336b8534d6e}" IsUserDefined="1" labelid="{35c938f1-da8c-43d6-b32e-6720dfe797ad}">
+          <labels>
+            <label description="General" languagecode="1033" />
+          </labels>
+          <columns>
+            <column width="100%">
+              <sections>
+                <section showlabel="false" showbar="false" IsUserDefined="0" id="{06ffa732-6d3a-423e-b20c-c2bb89d574a3}" labelid="{66ae7b93-f661-4a84-9dcf-2cec73814714}">
+                  <labels>
+                    <label description="General" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{da6834fa-30f5-4a5d-bbcb-220b89292ced}" labelid="{ec7825cd-609c-45bf-970b-9d9257b3fa9a}" visible="false">
+                        <labels>
+                          <label description="VolunteerId" languagecode="1033" />
+                        </labels>
+                        <control id="cree6_name" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="cree6_name" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{aba42450-0e6e-4706-80dd-ad9ccfd1ce88}" showlabel="true" visible="false" labelid="{679c8dea-1378-4223-b25e-b434c7df426b}">
+                        <labels>
+                          <label description="Owner" languagecode="1033" />
+                        </labels>
+                        <control id="ownerid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ownerid" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{686d8950-47d1-4c6f-980d-61530d9db843}" locklevel="0" colspan="1" rowspan="1" labelid="{2d220ca1-b4c3-4ffa-a2d7-31f596948895}">
+                        <labels>
+                          <label description="FirstName" languagecode="1033" />
+                        </labels>
+                        <control id="cree6_firstname" classid="{4273EDBD-AC1D-40D3-9FB2-095C621B552D}" datafieldname="cree6_firstname" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{bd7085dd-01c2-40a7-a1c4-0d7fcad3aeef}" locklevel="0" colspan="1" rowspan="1" labelid="{319b4139-a842-4c8f-bbda-4507c226938e}" visible="false">
+                        <labels>
+                          <label description="Modified By" languagecode="1033" />
+                        </labels>
+                        <control id="modifiedby" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="modifiedby" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{782cb335-2c74-4cb1-a5c7-24223754ce6a}" locklevel="0" colspan="1" rowspan="1" labelid="{f9cddbe6-b496-43e1-a91e-e35908d00c46}">
+                        <labels>
+                          <label description="LastName" languagecode="1033" />
+                        </labels>
+                        <control id="cree6_lastname" classid="{4273EDBD-AC1D-40D3-9FB2-095C621B552D}" datafieldname="cree6_lastname" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{770ac8ad-2af1-499f-9339-e5907d90e565}" locklevel="0" colspan="1" rowspan="1" labelid="{51f3815f-82bb-4722-8bb9-e993071cbfc0}">
+                        <labels>
+                          <label description="Email" languagecode="1033" />
+                        </labels>
+                        <control id="cree6_email" classid="{4273EDBD-AC1D-40D3-9FB2-095C621B552D}" datafieldname="cree6_email" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{d83d64ef-c666-4d7f-b3ff-0112c86735f7}" locklevel="0" colspan="1" rowspan="1" labelid="{4cb408c2-cd65-4469-a999-5a98148a6754}">
+                        <labels>
+                          <label description="PhoneNumber" languagecode="1033" />
+                        </labels>
+                        <control id="cree6_phonenumber" classid="{4273EDBD-AC1D-40D3-9FB2-095C621B552D}" datafieldname="cree6_phonenumber" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{6fc230cb-bd7b-49da-8ac8-86626503fabc}" locklevel="0" colspan="1" rowspan="1" labelid="{b12868a5-f0b3-4c14-831b-c508679194fc}" visible="false">
+                        <labels>
+                          <label description="Status" languagecode="1033" />
+                        </labels>
+                        <control id="statecode" classid="{3EF39988-22BB-4F0B-BBBE-64B5A3748AEE}" datafieldname="statecode" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{c4379495-179d-4b66-b487-0518819ca4cb}" locklevel="0" colspan="1" rowspan="1" labelid="{f710633c-d5e1-453d-9620-dd362532ff6f}" visible="false">
+                        <labels>
+                          <label description="Status Reason" languagecode="1033" />
+                        </labels>
+                        <control id="statuscode" classid="{3EF39988-22BB-4F0B-BBBE-64B5A3748AEE}" datafieldname="statuscode" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{6c62f7fb-e117-48f0-98a1-3ff9df650f8a}" locklevel="0" colspan="1" rowspan="1" labelid="{7b9572f6-5c3f-4b63-b9bc-999d46f0d4b9}">
+                        <labels>
+                          <label description="Volunteer_Status" languagecode="1033" />
+                        </labels>
+                        <control id="cree6_volunteer_status" classid="{3EF39988-22BB-4F0B-BBBE-64B5A3748AEE}" datafieldname="cree6_volunteer_status" disabled="false" />
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+              </sections>
+            </column>
+          </columns>
+        </tab>
+      </tabs>
+      <header id="{127d525b-ecdb-4233-9a78-7d39c3edc9e7}" celllabelposition="Top" columns="111" labelwidth="115" celllabelalignment="Left">
+        <rows>
+          <row>
+            <cell id="{4c9bad95-8ef2-4231-92dc-edcf26fb46e0}" showlabel="false" labelid="{e3650a2e-5b15-4f46-9dd7-7ec19d4bd414}">
+              <labels>
+                <label description="" languagecode="1033" />
+              </labels>
+            </cell>
+            <cell id="{6a722267-1a1f-47a7-ad14-e59ebb279e77}" showlabel="false" labelid="{135cd0a8-4810-4b62-8cc1-94dd504d2afc}">
+              <labels>
+                <label description="" languagecode="1033" />
+              </labels>
+            </cell>
+            <cell id="{1d512dcd-53d8-466f-8ebe-1f5d959dd747}" showlabel="false" labelid="{b587636f-32ab-428b-85f3-6d98ab9280b6}">
+              <labels>
+                <label description="" languagecode="1033" />
+              </labels>
+            </cell>
+          </row>
+        </rows>
+      </header>
+      <footer id="{9cf7e97c-77e6-4536-8f73-f289158a8207}" celllabelposition="Top" columns="111" labelwidth="115" celllabelalignment="Left">
+        <rows>
+          <row>
+            <cell id="{9983951b-2727-4345-9933-a016d5cc1590}" showlabel="false" labelid="{8535eccf-df4b-472b-84a6-c964a7d9a4ed}">
+              <labels>
+                <label description="" languagecode="1033" />
+              </labels>
+            </cell>
+            <cell id="{2a7e6f8e-9cf5-452d-8937-22660b3a78d5}" showlabel="false" labelid="{8c686cc1-4db6-498a-90c4-c8dbddbbba4d}">
+              <labels>
+                <label description="" languagecode="1033" />
+              </labels>
+            </cell>
+            <cell id="{88cbfae2-ac6d-432d-a2ec-ed982509dc56}" showlabel="false" labelid="{8fb6fc7d-7a96-4ffe-97dd-57b25c756b54}">
+              <labels>
+                <label description="" languagecode="1033" />
+              </labels>
+            </cell>
+          </row>
+        </rows>
+      </footer>
+      <DisplayConditions Order="2" FallbackForm="true">
+        <Role Id="{627090ff-40a3-4053-8790-584edc5be201}" />
+        <Role Id="{119f245c-3cc8-4b62-b31c-d1a046ced15d}" />
+      </DisplayConditions>
+    </form>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>1</CanBeDeleted>
+    <LocalizedNames>
+      <LocalizedName description="Volunteer_Insert_Form" languagecode="1033" />
+    </LocalizedNames>
+    <Descriptions>
+      <Description description="insert row" languagecode="1033" />
+    </Descriptions>
+  </systemform>
+</forms>

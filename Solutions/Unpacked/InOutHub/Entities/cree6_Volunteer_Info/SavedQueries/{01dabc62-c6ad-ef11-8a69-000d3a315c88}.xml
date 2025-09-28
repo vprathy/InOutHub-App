@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<savedqueries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <savedquery>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>1</CanBeDeleted>
+    <isquickfindquery>0</isquickfindquery>
+    <isprivate>0</isprivate>
+    <isdefault>0</isdefault>
+    <savedqueryid>{01dabc62-c6ad-ef11-8a69-000d3a315c88}</savedqueryid>
+    <layoutxml>
+      <grid name="resultset" jump="cree6_name" select="1" icon="1" preview="1">
+        <row name="result" id="cree6_volunteer_infoid">
+          <cell name="cree6_name" width="200" />
+          <cell name="cree6_email" width="100" />
+          <cell name="cree6_lastname" width="100" />
+          <cell name="cree6_firstname" width="100" />
+          <cell name="cree6_phonenumber" width="121" />
+          <cell name="cree6_volunteer_status" width="136" />
+        </row>
+      </grid>
+    </layoutxml>
+    <querytype>0</querytype>
+    <fetchxml>
+      <fetch version="1.0" output-format="xml-platform" mapping="logical">
+        <entity name="cree6_volunteer_info">
+          <attribute name="cree6_name" />
+          <attribute name="cree6_volunteer_infoid" />
+          <attribute name="cree6_email" />
+          <attribute name="cree6_lastname" />
+          <attribute name="cree6_firstname" />
+          <attribute name="cree6_phonenumber" />
+          <attribute name="cree6_volunteer_status" />
+        </entity>
+      </fetch>
+    </fetchxml>
+    <IntroducedVersion>1.0.0.0</IntroducedVersion>
+    <LocalizedNames>
+      <LocalizedName description="Volunteer_Info_View" languagecode="1033" />
+    </LocalizedNames>
+    <Descriptions>
+      <Description description="To update status and add new " languagecode="1033" />
+    </Descriptions>
+  </savedquery>
+</savedqueries>

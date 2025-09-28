@@ -1,0 +1,201 @@
+Exceptions_Summary As screen:
+    OnVisible: |
+        =
+
+    Gallery1_1 As gallery.galleryVertical:
+        DelayItemLoading: =true
+        Height: =786
+        Items: =Sort(Exceptions, DayScanClass)
+        Layout: =Layout.Vertical
+        LoadingSpinner: =LoadingSpinner.Data
+        TemplateSize: =46
+        Y: =304
+        ZIndex: =3
+
+        Label3_1 As label:
+            DisplayMode: =DisplayMode.View
+            Height: =25
+            OnSelect: =Select(Parent)
+            Size: =16
+            Text: =ThisItem.DayScanID
+            Width: =375
+            X: =76
+            Y: =8
+            ZIndex: =1
+
+        Label4_2 As label:
+            Align: =Align.Center
+            Height: =25
+            OnSelect: =Select(Parent)
+            Size: =16
+            Text: =ThisItem.CheckInTag
+            Width: =66
+            X: =408
+            Y: =8
+            ZIndex: =2
+
+        Label4_3 As label:
+            Align: =Align.Center
+            Height: =25
+            OnSelect: =Select(Parent)
+            Size: =16
+            Text: =ThisItem.CheckOutTag
+            Width: =60
+            X: =513
+            Y: =8
+            ZIndex: =3
+
+        Rectangle4_3 As rectangle:
+            Height: =4
+            OnSelect: =Select(Parent)
+            Width: =626
+            X: =4
+            Y: =41
+            ZIndex: =4
+
+        Label4_4 As label:
+            Height: =25
+            OnSelect: =Select(Parent)
+            Size: =16
+            Text: =ThisItem.DayScanClass
+            Width: =78
+            X: =12
+            Y: =8
+            ZIndex: =5
+
+        NextArrow1_3 As icon.ChevronRight:
+            AccessibleLabel: =Self.Tooltip
+            Color: =RGBA(166, 166, 166, 1)
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =40
+            Icon: =Icon.ChevronRight
+            OnSelect: |
+                =// 1) Resolve Exceptions row -> Student_Infos record (from cache)
+                Set(
+                    varSelectedStudent,
+                    LookUp(Student_Infos_Cache, IDName = ThisItem.DayScanID)
+                );
+                
+                // 2) If missing in cache, try the table once (optional fallback)
+                If(
+                    IsBlank(varSelectedStudent),
+                    Set(varSelectedStudent, LookUp(Student_Infos, IDName = ThisItem.DayScanID))
+                );
+                
+                // 3) Navigate; do NOT reset the profile
+                Navigate(
+                    scrStudentProfile,
+                    ScreenTransition.Fade,
+                    { resetProfile: false, ctxId: ThisItem.DayScanID }
+                );
+                
+                // Track where we came from (optional)
+                Set(varFromScreen, "Exceptions");
+            PaddingBottom: =12
+            PaddingLeft: =12
+            PaddingRight: =12
+            PaddingTop: =12
+            Tooltip: ="View item details"
+            Width: =50
+            X: =571
+            ZIndex: =6
+
+    Label2_12 As label:
+        FontWeight: =FontWeight.Semibold
+        Height: =47
+        Size: =16
+        Text: ="Student ID Name"
+        Width: =322
+        X: =79
+        Y: =253
+        ZIndex: =4
+
+    Label2_13 As label:
+        Align: =Align.Center
+        FontWeight: =FontWeight.Semibold
+        Height: =46
+        Size: =16
+        Text: ="Check In"
+        Width: =119
+        X: =391
+        Y: =253
+        ZIndex: =5
+
+    Label2_14 As label:
+        Align: =Align.Center
+        FontWeight: =FontWeight.Semibold
+        Height: =46
+        Size: =16
+        Text: ="Check Out"
+        Width: =120
+        X: =502
+        Y: =253
+        ZIndex: =6
+
+    Rectangle4_4 As rectangle:
+        Height: =4
+        Width: =626
+        X: =7
+        Y: =303
+        ZIndex: =7
+
+    Label2_15 As label:
+        FontWeight: =FontWeight.Semibold
+        Height: =46
+        Size: =16
+        Text: ="Class"
+        Width: =89
+        X: =15
+        Y: =253
+        ZIndex: =8
+
+    Label8_2 As label:
+        Color: =RGBA(255, 0, 0, 1)
+        Height: =39
+        Italic: =true
+        Size: =14
+        Text: ="Summary Data as of"
+        Width: =185
+        X: =22
+        Y: =204
+        ZIndex: =9
+
+    Label8_3 As label:
+        Color: =RGBA(255, 0, 0, 1)
+        Height: =39
+        Italic: =true
+        Size: =14
+        Text: =ReportTime
+        X: =202
+        Y: =204
+        ZIndex: =10
+
+    Check_In_Screen_Header_3 As label:
+        Align: =Align.Center
+        FontWeight: =FontWeight.Semibold
+        Height: =46
+        Size: =30
+        Text: ="Exceptions"
+        Width: =368
+        X: =132
+        Y: =49
+        ZIndex: =11
+
+    Back_Icon_4 As icon.BackArrow:
+        Height: =46
+        Icon: =Icon.BackArrow
+        OnSelect: =Navigate(Summary_by_Class_Report)
+        Width: =46
+        X: =49
+        Y: =49
+        ZIndex: =12
+
+    Icon4_1 As icon.Home:
+        Height: =46
+        Icon: =Icon.Home
+        OnSelect: =Navigate(Home_Screen)
+        Width: =46
+        X: =563
+        Y: =49
+        ZIndex: =13
+

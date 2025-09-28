@@ -1,0 +1,179 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_commondataserviceforapps": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "zv_sharedcommondataserviceforapps_e6003"
+        },
+        "api": {
+          "name": "shared_commondataserviceforapps"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        }
+      },
+      "triggers": {
+        "When_a_row_is_added,_modified_or_deleted": {
+          "metadata": {
+            "operationMetadataId": "5409c737-142b-4a50-abe4-8195af3e7d42"
+          },
+          "type": "OpenApiConnectionWebhook",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps",
+              "operationId": "SubscribeWebhookTrigger",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "subscriptionRequest/message": 1,
+              "subscriptionRequest/entityname": "cree6_check_out_scans",
+              "subscriptionRequest/scope": 4
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        }
+      },
+      "actions": {
+        "Condition": {
+          "actions": {
+            "List_rows": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "4147925d-b466-4ed3-9811-51c7f1733461"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_commondataserviceforapps",
+                  "operationId": "ListRecords",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                },
+                "parameters": {
+                  "entityName": "cree6_table11s",
+                  "$filter": "cree6_scanreportdate eq @{int(formatDateTime(utcNow(), 'yyyyMMdd'))} and cree6_dayscanid eq '@{triggerOutputs()?['body/cree6_student_qr']}'"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "Apply_to_each": {
+              "foreach": "@outputs('List_rows')?['body/value']",
+              "actions": {
+                "Update_a_row": {
+                  "runAfter": {},
+                  "metadata": {
+                    "operationMetadataId": "599e247b-1180-4979-b831-53f39e15a3e7"
+                  },
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connectionName": "shared_commondataserviceforapps",
+                      "operationId": "UpdateRecord",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                    },
+                    "parameters": {
+                      "entityName": "cree6_table11s",
+                      "recordId": "@items('Apply_to_each')?['cree6_table11id']",
+                      "item/cree6_checkintag": true
+                    },
+                    "authentication": "@parameters('$authentication')"
+                  }
+                }
+              },
+              "runAfter": {
+                "List_rows": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "a060334b-4570-48b3-a498-369e9dc4c52e"
+              },
+              "type": "Foreach"
+            }
+          },
+          "runAfter": {},
+          "else": {
+            "actions": {
+              "List_rows_2": {
+                "runAfter": {},
+                "metadata": {
+                  "operationMetadataId": "0765dfb7-1304-4147-83e3-c2a885ec5ce6"
+                },
+                "type": "OpenApiConnection",
+                "inputs": {
+                  "host": {
+                    "connectionName": "shared_commondataserviceforapps",
+                    "operationId": "ListRecords",
+                    "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                  },
+                  "parameters": {
+                    "entityName": "cree6_table11s",
+                    "$filter": "cree6_scanreportdate eq @{int(formatDateTime(utcNow(), 'yyyyMMdd'))} and cree6_dayscanid eq '@{triggerOutputs()?['body/cree6_student_qr']}'"
+                  },
+                  "authentication": "@parameters('$authentication')"
+                }
+              },
+              "Apply_to_each_2": {
+                "foreach": "@outputs('List_rows_2')?['body/value']",
+                "actions": {
+                  "Update_a_row_2": {
+                    "runAfter": {},
+                    "metadata": {
+                      "operationMetadataId": "d2ea98f7-d0ca-4793-843d-1a90b7813b01"
+                    },
+                    "type": "OpenApiConnection",
+                    "inputs": {
+                      "host": {
+                        "connectionName": "shared_commondataserviceforapps",
+                        "operationId": "UpdateRecord",
+                        "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                      },
+                      "parameters": {
+                        "entityName": "cree6_table11s",
+                        "recordId": "@items('Apply_to_each_2')?['cree6_table11id']",
+                        "item/cree6_checkouttag": true
+                      },
+                      "authentication": "@parameters('$authentication')"
+                    }
+                  }
+                },
+                "runAfter": {
+                  "List_rows_2": [
+                    "Succeeded"
+                  ]
+                },
+                "metadata": {
+                  "operationMetadataId": "a5a32ade-c0dd-4aa8-9c63-395a02ef7340"
+                },
+                "type": "Foreach"
+              }
+            }
+          },
+          "expression": {
+            "contains": [
+              "@triggerOutputs()?['body/cree6_scantype']",
+              "Check In"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "eb9a516b-3639-4134-bcf4-c749096af039"
+          },
+          "type": "If"
+        }
+      }
+    },
+    "templateName": ""
+  },
+  "schemaVersion": "1.0.0.0"
+}
